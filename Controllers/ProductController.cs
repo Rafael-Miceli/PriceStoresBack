@@ -1,4 +1,5 @@
 ﻿using System;
+using Api.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,8 +8,13 @@ using Microsoft.AspNetCore.Mvc;
 namespace Api.Controllers
 {
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class ProductController : Controller
     {
+        public ProductController()
+        {            
+            Console.WriteLine("Inicializou controller");
+        }
+
         // GET api/values
         [HttpGet]
         public IEnumerable<string> Get()
@@ -25,14 +31,16 @@ namespace Api.Controllers
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody]string value)
+        public void Post([FromBody]ProductVm productVm)
         {
+            Console.WriteLine(productVm.Name);
         }
 
         // PUT api/values/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public void Put(int id, [FromBody]ProductVm productVm)
         {
+            Console.WriteLine(productVm.Name);
         }
 
         // DELETE api/values/5
