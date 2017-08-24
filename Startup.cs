@@ -26,7 +26,10 @@ namespace Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors(opt => opt.AddPolicy("CorsPolicy",
-            builder => builder.AllowAnyOrigin()));
+            builder => 
+                builder.AllowAnyOrigin()
+                .AllowAnyHeader()
+                .AllowAnyMethod()));
 
             services.AddMvc();
             services.Configure<MvcOptions>(opt => 
