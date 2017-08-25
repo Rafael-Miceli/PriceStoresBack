@@ -1,5 +1,5 @@
 ﻿using System;
-using Api.Models;
+using Api.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,15 +32,13 @@ namespace Api.Controllers
         // POST api/values
         [HttpPost]
         public void Post([FromBody]ProductVm productVm)
-        {
-            Console.WriteLine(productVm.Name);
-        }
+        {}
 
         // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]ProductVm productVm)
+        [HttpPut]
+        public void Put([FromBody]ProductVm productVm)
         {
-            Console.WriteLine(productVm.Name);
+            Console.WriteLine($"PUT {productVm.Name}");
         }
 
         // DELETE api/values/5
