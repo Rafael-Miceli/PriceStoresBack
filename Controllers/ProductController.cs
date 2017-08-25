@@ -1,5 +1,6 @@
 ﻿using System;
 using Api.ViewModels;
+using Api.ApplicationServices.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,9 +11,11 @@ namespace Api.Controllers
     [Route("api/[controller]")]
     public class ProductController : Controller
     {
-        public ProductController()
+        private IProductApplicationService _productApplicationService;
+
+        public ProductController(IProductApplicationService productApplicationService)
         {            
-            Console.WriteLine("Inicializou controller");
+            _productApplicationService = productApplicationService;
         }
 
         // GET api/values
@@ -32,7 +35,9 @@ namespace Api.Controllers
         // POST api/values
         [HttpPost]
         public void Post([FromBody]ProductVm productVm)
-        {}
+        {
+
+        }
 
         // PUT api/values/5
         [HttpPut]
