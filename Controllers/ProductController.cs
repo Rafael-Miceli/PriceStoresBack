@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 
 namespace Api.Controllers
 {
@@ -36,7 +37,8 @@ namespace Api.Controllers
         [HttpPost]
         public void Post([FromBody]ProductVm productVm)
         {
-
+            var product = new Product(productVm.Name, productVm.LastPrice);
+            _productApplicationService.AddProduct(product);
         }
 
         // PUT api/values/5

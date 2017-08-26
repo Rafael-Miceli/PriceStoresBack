@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Api.ApplicationServices;
+using Api.ApplicationServices.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +36,8 @@ namespace Api
             services.AddMvc();
             services.Configure<MvcOptions>(opt => 
             opt.Filters.Add(new CorsAuthorizationFilterFactory("CorsPolicy")));
+
+            services.AddTransient<IProductApplicationService, ProductApplicationService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
