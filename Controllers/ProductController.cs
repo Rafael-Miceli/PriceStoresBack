@@ -38,14 +38,14 @@ namespace Api.Controllers
         public void Post([FromBody]ProductVm productVm)
         {
             var product = new Product(productVm.Name, productVm.LastPrice);
-            _productApplicationService.AddProduct(product);
+            //_productApplicationService.AddProduct(product);
         }
 
         // PUT api/values/5
         [HttpPut]
         public void Put([FromBody]ProductVm productVm)
         {
-            Console.WriteLine($"PUT {productVm.Name}");
+            var product = _productApplicationService.Find(product);
         }
 
         // DELETE api/values/5
