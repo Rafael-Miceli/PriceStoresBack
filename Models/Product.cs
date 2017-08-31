@@ -34,15 +34,29 @@ namespace Models
 
     public class ProductHistory
     {
-        public Product Product { get; private set; }
+        public ProductOfThePast Product { get; private set; }
         public DateTime DateTimeProductChanged { get; private set; }
 
         public ProductHistory(Product product)
         {
-            Product = product;
+            Product = new ProductOfThePast(product);
             DateTimeProductChanged = DateTime.UtcNow;
 
             //Notify
+        }
+    }
+
+    public class ProductOfThePast
+    {
+        public string Id { get; private set; }
+        public string Name { get; private set; }
+        public float Price { get; private set; }
+
+        public ProductOfThePast(Product product)
+        {
+            Id = product.Id;
+            Name = product.Name;
+            Price = product.ActualPrice;
         }
     }
 }
