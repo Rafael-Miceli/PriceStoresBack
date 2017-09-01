@@ -16,10 +16,14 @@ namespace Api.ApplicationServices
         {
             try
             {
-                var client = new MongoClient();
+                var client = new MongoClient("mongodb://192.168.99.100:27017");
                 _mongoDb = client.GetDatabase("test");
             }
-            catch (Exception) { /*Logger.Error(ex, "InitializeMongoDatabase");*/ _mongoDb = null; }
+            catch (Exception ex) 
+            { 
+                Console.WriteLine(ex.Message);
+                _mongoDb = null; 
+            }
         }
 
         public void AddProduct(Product product)
@@ -35,6 +39,8 @@ namespace Api.ApplicationServices
         public Product FindByName(string productName)
         {
             Console.WriteLine($"Buscando produto {productName}");
+            InitializeMongoDatabase();
+            AddProduct(new Product("Teste", 0));
 
             return new Product(productName, 0);
         }
