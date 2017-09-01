@@ -39,6 +39,7 @@ namespace Api.Controllers
         {
             var product = new Product(productVm.Name, productVm.LastPrice);
             _productApplicationService.AddProduct(product);
+            Created("", product);
         }
 
         // PUT api/values/5
