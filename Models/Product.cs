@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Models
+namespace Api.Models
 {
     public class Product
     {
@@ -12,6 +12,7 @@ namespace Models
 
         public Product(string name, float actualPrice)
         {
+            Id = Guid.NewGuid().ToString();
             Name = name;
             ActualPrice = actualPrice;
 
