@@ -16,8 +16,8 @@ namespace Api.ApplicationServices
         {
             try
             {
-                var client = new MongoClient("mongodb://192.168.99.100:27017");
-                _mongoDb = client.GetDatabase("test");
+                var client = new MongoClient("mongodb://localhost:27017");
+                _mongoDb = client.GetDatabase("local");
             }
             catch (Exception ex) 
             { 
@@ -29,18 +29,30 @@ namespace Api.ApplicationServices
         public void AddProduct(Product product)
         {
             InitializeMongoDatabase(); 
-            BsonDocument doc = new BsonDocument();
-            doc.Add(new BsonElement("ProductName", product.Name));
+            BsonDocument doc = new BsonDocument{{"Name", product.Name}};
 
-            var collection = _mongoDb.GetCollection<BsonDocument>("products");
-            collection.InsertOne(doc);
+            //doc.Add(new BsonElement("ProductName", product.Name));
+
+            try
+            {
+                var products = _mongoDb.GetCollection<BsonDocument>("products");
+                products.InsertOne(doc);    
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                throw;
+            }             
         }
 
         public Product FindByName(string productName)
         {
-            Console.WriteLine($"Buscando produto {productName}");
-            InitializeMongoDatabase();
-            AddProduct(new Product("Teste", 0));
+            InitializeMongoDatabase(); 
+            //Console.WriteLine($"Buscando produto {productName}");
+            var products = _mongoDb.GetCollection<BsonDocument>("products");
+            Console.WriteLine("Total de Produtos " + products.AsQueryable().First());
+            //InitializeMongoDatabase();
+            //AddProduct(new Product("Teste", 0));
 
             return new Product(productName, 0);
         }
