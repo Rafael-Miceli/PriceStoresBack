@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Models;
+using Api.Models;
 
 namespace Api.Controllers
 {
@@ -21,9 +21,9 @@ namespace Api.Controllers
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IEnumerable<ProductVm> Get()
         {
-            return new string[] { "value1", "value2" };
+            return _productApplicationService.GetAll();
         }
 
         // GET api/values/5
