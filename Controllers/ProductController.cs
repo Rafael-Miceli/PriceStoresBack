@@ -28,9 +28,9 @@ namespace Api.Controllers
 
         // GET api/values/5
         [HttpGet("{id}")]
-        public Product Get(int id)
+        public ProductDto Get(int id)
         {
-            return _productApplicationService.FindByName("productVm.Name");
+            return _productApplicationService.FindByName("Teste 2");
         }
 
         // POST api/values

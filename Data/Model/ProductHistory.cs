@@ -3,20 +3,6 @@ using System.Collections.Generic;
 
 namespace Api.Data.Model
 {
-    public class Product
-    {
-        public string Id { get; private set; }
-        public string Name { get; private set; }
-        public float ActualPrice { get; private set; }
-
-        public Product(Api.Models.Product product)
-        {
-            Id = product.Id;
-            Name = product.Name;
-            ActualPrice = product.ActualPrice;
-        }
-    }
-
     public class ProductHistory
     {
         public string Id { get; private set; }

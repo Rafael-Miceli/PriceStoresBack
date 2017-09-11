@@ -7,7 +7,7 @@ namespace Api.ApplicationServices.Interfaces
     public interface IProductApplicationService
     {
         void AddProduct(Product product);
-        Product FindByName(string productName);
+        ProductDto FindByName(string productName);
         IEnumerable<ProductDto> GetAll();
     }
 }

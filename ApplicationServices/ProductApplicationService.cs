@@ -24,10 +24,10 @@ namespace Api.ApplicationServices
             _productContext.AddProduct(product);
         }
 
-        public Product FindByName(string productName)
+        public ProductDto FindByName(string productName)
         {
             Console.WriteLine($"Buscando produto {productName}");
-            return new Product(productName, 0);
+            return _productContext.FindByName(productName);
         }
 
         public IEnumerable<ProductDto> GetAll()

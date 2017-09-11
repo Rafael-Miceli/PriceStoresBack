@@ -32,7 +32,7 @@ namespace Api.Data
 
         public void AddProduct(Product product)
         {
-            var productData = new Api.Data.Model.Product(product);
+            var productData = new ProductDto(product);
             Product().InsertOne(productData);
             var productHistory = new Api.Data.Model.ProductHistory(product);
             ProductHistory().InsertOne(productHistory);
@@ -42,22 +42,25 @@ namespace Api.Data
         {
             var dataProducts = Product().Find(_ => true);
             if(!dataProducts.Any())
-                return new List<ProductDto>();           
+                return new List<ProductDto>();                       
+
+            return dataProducts.ToList();
+        }
+
+        public ProductDto FindByName(string name)
+        {
+            var dataProduct = Product().Find(p => p.Name == name);
+            if(!dataProduct.Any())
+                return null;           
             
-            var products = MapDataProductToModelProduct(dataProducts.ToList());
-
-            return products;
+            return dataProduct.ToList().First();    
         }
 
-        private IEnumerable<ProductDto> MapDataProductToModelProduct(List<Api.Data.Model.Product> dataProducts)
+        private IMongoCollection<ProductDto> Product()
         {
-            return dataProducts.Select(d => new ProductDto(d.Id, d.Name, d.ActualPrice));
+            return _mongoDb.GetCollection<ProductDto>("products");
         }
-
-        private IMongoCollection<Api.Data.Model.Product> Product()
-        {
-            return _mongoDb.GetCollection<Api.Data.Model.Product>("products");
-        }
+        
         private IMongoCollection<Api.Data.Model.ProductHistory> ProductHistory()
         {
             return _mongoDb.GetCollection<Api.Data.Model.ProductHistory>("productsHistory");
@@ -68,6 +71,7 @@ namespace Api.Data
     {
         void AddProduct(Product product);
         IEnumerable<ProductDto> GetAll();
+        ProductDto FindByName(string name);
     }
 
     
