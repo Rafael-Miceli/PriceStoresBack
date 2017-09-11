@@ -40,8 +40,11 @@ namespace Api.Data
 
         public IEnumerable<ProductDto> GetAll()
         {
-            var dataProducts = Product().Find(p => p.Id != null).ToList();
-            var products = MapDataProductToModelProduct(dataProducts);
+            var dataProducts = Product().Find(_ => true);
+            if(!dataProducts.Any())
+                return new List<ProductDto>();           
+            
+            var products = MapDataProductToModelProduct(dataProducts.ToList());
 
             return products;
         }
