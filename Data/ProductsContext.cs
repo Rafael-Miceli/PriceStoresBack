@@ -2,6 +2,8 @@ using System;
 using MongoDB.Bson;
 using MongoDB.Driver;
 using Api.Models;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Api.Data
 {
@@ -18,7 +20,7 @@ namespace Api.Data
         {
             try
             {
-                var client = new MongoClient("mongodb://192.168.99.100:27017");
+                var client = new MongoClient("mongodb://localhost:27017");
                 _mongoDb = client.GetDatabase("local");
             }
             catch (Exception ex) 
@@ -28,15 +30,41 @@ namespace Api.Data
             }
         }
 
-        public IMongoCollection<Product> Product()
+        public void AddProduct(Product product)
         {
-            return _mongoDb.GetCollection<Product>("products");
+            var productData = new Api.Data.Model.Product(product);
+            Product().InsertOne(productData);
+            var productHistory = new Api.Data.Model.ProductHistory(product);
+            ProductHistory().InsertOne(productHistory);
+        }
+
+        public IEnumerable<ProductDto> GetAll()
+        {
+            var dataProducts = Product().Find(p => p.Id != null).ToList();
+            var products = MapDataProductToModelProduct(dataProducts);
+
+            return products;
+        }
+
+        private IEnumerable<ProductDto> MapDataProductToModelProduct(List<Api.Data.Model.Product> dataProducts)
+        {
+            return dataProducts.Select(d => new ProductDto(d.Id, d.Name, d.ActualPrice));
+        }
+
+        private IMongoCollection<Api.Data.Model.Product> Product()
+        {
+            return _mongoDb.GetCollection<Api.Data.Model.Product>("products");
+        }
+        private IMongoCollection<Api.Data.Model.ProductHistory> ProductHistory()
+        {
+            return _mongoDb.GetCollection<Api.Data.Model.ProductHistory>("productsHistory");
         }
     }
 
     public interface IProductContext
     {
-        IMongoCollection<Product> Product();
+        void AddProduct(Product product);
+        IEnumerable<ProductDto> GetAll();
     }
 
     

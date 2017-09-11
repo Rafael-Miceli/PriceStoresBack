@@ -8,6 +8,6 @@ namespace Api.ApplicationServices.Interfaces
     {
         void AddProduct(Product product);
         Product FindByName(string productName);
-        IEnumerable<ProductVm> GetAll();
+        IEnumerable<ProductDto> GetAll();
     }
 }

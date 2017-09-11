@@ -21,7 +21,7 @@ namespace Api.Controllers
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<ProductVm> Get()
+        public IEnumerable<ProductDto> Get()
         {
             return _productApplicationService.GetAll();
         }
