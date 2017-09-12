@@ -7,6 +7,7 @@ using MongoDB.Bson;
 using MongoDB.Driver;
 using Api.Data;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Api.ApplicationServices
 {
@@ -30,10 +31,10 @@ namespace Api.ApplicationServices
             return _productContext.FindByName(productName);
         }
 
-        public IEnumerable<ProductDto> GetAll()
+        public async Task<IEnumerable<ProductDto>> GetAll()
         {
             Console.WriteLine("Buscando todos os produtos");
-            var products = _productContext.GetAll();
+            var products = await _productContext.GetAll();
             Console.WriteLine("produto encontrado " + products.FirstOrDefault()?.Name);
             return products;
         }

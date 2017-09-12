@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Api.ViewModels;
 using Api.Models;
+using System.Threading.Tasks;
 
 namespace Api.ApplicationServices.Interfaces
 {
@@ -8,6 +9,6 @@ namespace Api.ApplicationServices.Interfaces
     {
         void AddProduct(Product product);
         ProductDto FindByName(string productName);
-        IEnumerable<ProductDto> GetAll();
+        Task<IEnumerable<ProductDto>> GetAll();
     }
 }

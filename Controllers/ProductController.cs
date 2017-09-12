@@ -21,9 +21,9 @@ namespace Api.Controllers
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<ProductDto> Get()
+        public async Task<IEnumerable<ProductDto>> Get()
         {
-            return _productApplicationService.GetAll();
+            return await _productApplicationService.GetAll();
         }
 
         // GET api/values/5

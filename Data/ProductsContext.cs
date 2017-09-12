@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using Api.Models;
 using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Api.Data
 {
@@ -38,13 +39,13 @@ namespace Api.Data
             ProductHistory().InsertOne(productHistory);
         }
 
-        public IEnumerable<ProductDto> GetAll()
+        public async Task<IEnumerable<ProductDto>> GetAll()
         {
-            var dataProducts = Product().Find(_ => true);
+            var dataProducts = await Product().FindAsync(_ => true);
             if(!dataProducts.Any())
-                return new List<ProductDto>();                       
+                return null;                       
 
-            return dataProducts.ToList();
+            return await dataProducts.ToListAsync();
         }
 
         public ProductDto FindByName(string name)
@@ -70,7 +71,7 @@ namespace Api.Data
     public interface IProductContext
     {
         void AddProduct(Product product);
-        IEnumerable<ProductDto> GetAll();
+        Task<IEnumerable<ProductDto>> GetAll();
         ProductDto FindByName(string name);
     }
 
