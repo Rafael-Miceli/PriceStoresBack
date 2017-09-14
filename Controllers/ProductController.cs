@@ -35,10 +35,18 @@ namespace Api.Controllers
 
         // POST api/values
         [HttpPost]
-        public async Task Post([FromBody]ProductVm productVm)
+        public async Task<IActionResult> Post([FromBody]ProductVm productVm)
         {
             var product = new Product(productVm.Name, productVm.LastPrice);
-            await _productApplicationService.AddProduct(product);            
+            try
+            {
+                await _productApplicationService.AddProduct(product);            
+                return Created("location", product);
+            } 
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }            
         }
 
         // PUT api/values/5

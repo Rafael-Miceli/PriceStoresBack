@@ -22,6 +22,9 @@ namespace Api.ApplicationServices
 
         public async Task AddProduct(Product product)
         {
+            if (FindByName(product.Name) != null)
+                throw new Exception("Um produto com este nome já existe");
+
             await _productContext.AddProduct(product);
         }
 

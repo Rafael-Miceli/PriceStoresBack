@@ -11,7 +11,7 @@ namespace Api.Models
         public ICollection<ProductHistory> History { get; set; }
 
         public Product(string name, float actualPrice)
-        {
+        {            
             Id = Guid.NewGuid().ToString();
             Name = name;
             ActualPrice = actualPrice;
