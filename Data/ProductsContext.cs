@@ -21,7 +21,7 @@ namespace Api.Data
         {
             try
             {
-                var client = new MongoClient("mongodb://192.168.99.100:27017");
+                var client = new MongoClient("mongodb://localhost:27017");
                 _mongoDb = client.GetDatabase("local");
             }
             catch (Exception ex) 
@@ -31,12 +31,12 @@ namespace Api.Data
             }
         }
 
-        public void AddProduct(Product product)
+        public async Task AddProduct(Product product)
         {
             var productData = new ProductDto(product);
-            Product().InsertOne(productData);
+            await Product().InsertOneAsync(productData);
             var productHistory = new Api.Data.Model.ProductHistory(product);
-            ProductHistory().InsertOne(productHistory);
+            await ProductHistory().InsertOneAsync(productHistory);
         }
 
         public async Task<IEnumerable<ProductDto>> GetAll()
@@ -70,7 +70,7 @@ namespace Api.Data
 
     public interface IProductContext
     {
-        void AddProduct(Product product);
+        Task AddProduct(Product product);
         Task<IEnumerable<ProductDto>> GetAll();
         ProductDto FindByName(string name);
     }

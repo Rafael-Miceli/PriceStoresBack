@@ -20,9 +20,9 @@ namespace Api.ApplicationServices
             _productContext = productContext;
         }
 
-        public void AddProduct(Product product)
+        public async Task AddProduct(Product product)
         {
-            _productContext.AddProduct(product);
+            await _productContext.AddProduct(product);
         }
 
         public ProductDto FindByName(string productName)
