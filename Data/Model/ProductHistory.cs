@@ -10,6 +10,7 @@ namespace Api.Data.Model
 
         public ProductHistory(Api.Models.Product product)
         {
+            Id = Guid.NewGuid().ToString();
             ProductsOfThePast = new List<ProductOfThePast>
             {
                 new ProductOfThePast(product)
