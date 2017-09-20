@@ -48,13 +48,13 @@ namespace Api.Data
             return await dataProducts.ToListAsync();
         }
 
-        public ProductDto FindByName(string name)
+        public async Task<ProductDto> FindByName(string name)
         {
             var dataProduct = Product().Find(p => p.Name == name);
             if(!dataProduct.Any())
                 return null;           
             
-            return dataProduct.ToList().First();    
+            return await dataProduct.FirstOrDefaultAsync();    
         }
 
         private IMongoCollection<ProductDto> Product()
@@ -72,7 +72,7 @@ namespace Api.Data
     {
         Task AddProduct(Product product);
         Task<IEnumerable<ProductDto>> GetAll();
-        ProductDto FindByName(string name);
+        Task<ProductDto> FindByName(string name);
     }
 
     

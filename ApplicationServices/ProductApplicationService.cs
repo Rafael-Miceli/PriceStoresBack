@@ -28,10 +28,9 @@ namespace Api.ApplicationServices
             await _productContext.AddProduct(product);
         }
 
-        public ProductDto FindByName(string productName)
+        public async Task<ProductDto> FindByName(string productName)
         {
-            Console.WriteLine($"Buscando produto {productName}");
-            return _productContext.FindByName(productName);
+            return await _productContext.FindByName(productName);
         }
 
         public async Task<IEnumerable<ProductDto>> GetAll()

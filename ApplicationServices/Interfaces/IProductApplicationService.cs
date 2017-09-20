@@ -8,7 +8,7 @@ namespace Api.ApplicationServices.Interfaces
     public interface IProductApplicationService
     {
         Task AddProduct(Product product);
-        ProductDto FindByName(string productName);
+        Task<ProductDto> FindByName(string productName);
         Task<IEnumerable<ProductDto>> GetAll();
     }
 }

@@ -27,10 +27,10 @@ namespace Api.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public ProductDto Get(int id)
+        [HttpPost]
+        public async Task<ProductDto> GetbyName([FromBody]string productName)
         {
-            return _productApplicationService.FindByName("Teste 2");
+            return await _productApplicationService.FindByName(productName);
         }
 
         // POST api/values
