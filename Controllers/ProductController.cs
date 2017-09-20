@@ -43,7 +43,7 @@ namespace Api.Controllers
                 await _productApplicationService.AddProduct(product);            
                 return Created("location", product);
             } 
-            catch (Exception ex)
+            catch (Exception)
             {
                 return BadRequest();
             }            

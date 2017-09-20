@@ -37,7 +37,7 @@ namespace Api.ApplicationServices
         {
             Console.WriteLine("Buscando todos os produtos");
             var products = await _productContext.GetAll();
-            Console.WriteLine("produto encontrado " + products.FirstOrDefault()?.Name);
+            
             return products;
         }
     }

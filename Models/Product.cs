@@ -66,6 +66,9 @@ namespace Api.Models
         public string Id { get; private set; }
         public string Name { get; private set; }
         public float Price { get; private set; }
+        public float MinPrice { get; set; }
+        public float MaxPrice { get; set; }
+
         
         public ProductDto(Product product)
         {
