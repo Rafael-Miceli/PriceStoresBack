@@ -11,3 +11,5 @@ C:\Users\Rafael\Documents\Pessoal\PriceStores\Api\tests\obj\Debug\netcoreapp2.0\
 C:\Users\Rafael\Documents\Pessoal\PriceStores\Api\tests\obj\Debug\netcoreapp2.0\tests.AssemblyInfo.cs
 C:\Users\Rafael\Documents\Pessoal\PriceStores\Api\tests\obj\Debug\netcoreapp2.0\tests.dll
 C:\Users\Rafael\Documents\Pessoal\PriceStores\Api\tests\obj\Debug\netcoreapp2.0\tests.pdb
+C:\Users\Rafael\Documents\Pessoal\PriceStores\Api\tests\bin\Debug\netcoreapp2.0\Api.dll
+C:\Users\Rafael\Documents\Pessoal\PriceStores\Api\tests\bin\Debug\netcoreapp2.0\Api.pdb

@@ -11,10 +11,14 @@ namespace Api.Data
     public class ProductContext: IProductContext
     {
         private IMongoDatabase _mongoDb;
+        private IMongoCollection<ProductDto> Products {get; set;}
+        private IMongoCollection<Api.Data.Model.ProductHistory> ProductsHistory {get; set;}
 
         public ProductContext()
         {
             InitializeMongoDatabase();
+            Products = _mongoDb.GetCollection<ProductDto>("products");
+            ProductsHistory = _mongoDb.GetCollection<Api.Data.Model.ProductHistory>("productsHistory");
         }
 
         private void InitializeMongoDatabase()
@@ -34,38 +38,36 @@ namespace Api.Data
         public async Task AddProduct(Product product)
         {
             var productData = new ProductDto(product);
-            await Product().InsertOneAsync(productData);
+            await Products.InsertOneAsync(productData);
             var productHistory = new Api.Data.Model.ProductHistory(product);
-            await ProductHistory().InsertOneAsync(productHistory);
+            await ProductsHistory.InsertOneAsync(productHistory);
         }
 
         public async Task<IEnumerable<ProductDto>> GetAll()
         {
-            var dataProducts = Product().Find(_ => true);
-            if(!dataProducts.Any())
-                return null;                       
+            // var dataProducts = Products.Find(_ => true);
+            // if(!dataProducts.Any())
+            //     return null;                       
 
-            return await dataProducts.ToListAsync();
+            // return await dataProducts.ToListAsync();
+
+            // var dataProducts = Products
+            //     .Aggregate()
+            //     .Lookup<ProductDto, Api.Data.Model.ProductHistory, ProductWithHistories>(
+            //         ProductsHistory,
+            //         r => r.Id,
+            //         h => h.Id
+            //     )
         }
 
         public async Task<ProductDto> FindByName(string name)
         {
-            var dataProduct = Product().Find(p => p.Name == name);
+            var dataProduct = Products.Find(p => p.Name == name);
             if(!dataProduct.Any())
                 return null;           
             
             return await dataProduct.FirstOrDefaultAsync();    
-        }
-
-        private IMongoCollection<ProductDto> Product()
-        {
-            return _mongoDb.GetCollection<ProductDto>("products");
-        }
-        
-        private IMongoCollection<Api.Data.Model.ProductHistory> ProductHistory()
-        {
-            return _mongoDb.GetCollection<Api.Data.Model.ProductHistory>("productsHistory");
-        }
+        }        
     }
 
     public interface IProductContext
@@ -75,6 +77,13 @@ namespace Api.Data
         Task<ProductDto> FindByName(string name);
     }
 
-    
+    // public class ProductWithHistories: ProductDto
+    // {
+    //     public Api.Data.Model.ProductHistory ProductHistory { get; set; }
+
+    //     public ProductWithHistories(Product product):base(product)
+    //     {
+    //     }
+    // }
 }
 
