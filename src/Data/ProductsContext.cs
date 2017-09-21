@@ -45,19 +45,20 @@ namespace Api.Data
 
         public async Task<IEnumerable<ProductDto>> GetAll()
         {
-            // var dataProducts = Products.Find(_ => true);
-            // if(!dataProducts.Any())
-            //     return null;                       
+            var dataProductsNew = Products
+                .Aggregate()
+                .Lookup<ProductDto, Api.Data.Model.ProductHistory, ProductWithHistories>(
+                    ProductsHistory,
+                    r => r.Id,
+                    h => h.Id,
+                    j => j.ProductsHistory
+                ).ToList();            
 
-            // return await dataProducts.ToListAsync();
+            var dataProducts = Products.Find(_ => true);
+            if(!dataProducts.Any())
+                return null;                       
 
-            // var dataProducts = Products
-            //     .Aggregate()
-            //     .Lookup<ProductDto, Api.Data.Model.ProductHistory, ProductWithHistories>(
-            //         ProductsHistory,
-            //         r => r.Id,
-            //         h => h.Id
-            //     )
+            return await dataProducts.ToListAsync();
         }
 
         public async Task<ProductDto> FindByName(string name)
@@ -77,13 +78,13 @@ namespace Api.Data
         Task<ProductDto> FindByName(string name);
     }
 
-    // public class ProductWithHistories: ProductDto
-    // {
-    //     public Api.Data.Model.ProductHistory ProductHistory { get; set; }
+    public class ProductWithHistories: ProductDto
+    {
+        public IEnumerable<Api.Data.Model.ProductHistory> ProductsHistory { get; set; }
 
-    //     public ProductWithHistories(Product product):base(product)
-    //     {
-    //     }
-    // }
+        public ProductWithHistories(Product product):base(product)
+        {
+        }
+    }
 }
 
