@@ -19,21 +19,19 @@ namespace Api.Controllers
             _productApplicationService = productApplicationService;
         }
 
-        // GET api/values
         [HttpGet]
         public async Task<IEnumerable<ProductDto>> Get()
         {
             return await _productApplicationService.GetAll();
         }
 
-        // GET api/values/5
         [HttpPost]
+        [Route("api/GetByName")]
         public async Task<ProductDto> GetbyName([FromBody]string productName)
         {
             return await _productApplicationService.FindByName(productName);
         }
 
-        // POST api/values
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]ProductVm productVm)
         {
@@ -43,8 +41,9 @@ namespace Api.Controllers
                 await _productApplicationService.AddProduct(product);            
                 return Created("location", product);
             } 
-            catch (Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine(ex);
                 return BadRequest();
             }            
         }
