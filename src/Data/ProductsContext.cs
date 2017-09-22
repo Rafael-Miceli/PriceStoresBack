@@ -79,7 +79,7 @@ namespace Api.Data
         Task AddProduct(Product product);
         Task<IEnumerable<ProductDto>> GetAll();
         Task<ProductDto> FindByName(string name);
-        Task<IEnumerable<ProductWithHistories>> GetAllWithHistory()
+        Task<IEnumerable<ProductWithHistories>> GetAllWithHistory();
     }    
 }
 

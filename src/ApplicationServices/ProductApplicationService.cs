@@ -38,7 +38,7 @@ namespace Api.ApplicationServices
             Console.WriteLine("Buscando todos os produtos");
             var products = await _productContext.GetAllWithHistory();
 
-            products.CalculateMinAndMax();
+            //Calcular preços min e max de cada produto
             
             return products;
         }

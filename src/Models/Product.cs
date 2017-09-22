@@ -94,7 +94,7 @@ namespace Api.Models
         }
 
         public void CalculateMinAndMax()
-        {
+            {
 
         }
     }
