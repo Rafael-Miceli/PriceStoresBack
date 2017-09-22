@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Api.Models
 {
@@ -93,9 +95,12 @@ namespace Api.Models
         {
         }
 
-        public void CalculateMinAndMax()
-            {
-
-        }
+        //Rever como calcular o valor min e max dos produtos do passado
+        // public async Task CalculateMinAndMax()
+        // {
+        //     await Task.Run(() => {
+        //         MinPrice = ProductsHistory.Min(h => h.ProductsOfThePast.)
+        //     });
+        // }
     }
 }
