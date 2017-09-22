@@ -84,4 +84,18 @@ namespace Api.Models
             Price = actualPrice;
         }
     }
+
+    public class ProductWithHistories: ProductDto
+    {
+        public IEnumerable<Api.Data.Model.ProductHistory> ProductsHistory { get; set; }
+
+        public ProductWithHistories(Product product):base(product)
+        {
+        }
+
+        public void CalculateMinAndMax()
+        {
+
+        }
+    }
 }

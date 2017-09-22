@@ -36,7 +36,9 @@ namespace Api.ApplicationServices
         public async Task<IEnumerable<ProductDto>> GetAll()
         {
             Console.WriteLine("Buscando todos os produtos");
-            var products = await _productContext.GetAll();
+            var products = await _productContext.GetAllWithHistory();
+
+            products.CalculateMinAndMax();
             
             return products;
         }
