@@ -89,7 +89,8 @@ namespace Api.Models
 
     public class ProductWithHistories: ProductDto
     {
-        public IEnumerable<Api.Data.Model.ProductHistory> ProductsHistory { get; set; }
+        //Apesar de ser uma lista de historicos
+        public Api.Data.Model.ProductHistory ProductHistory { get; set; }
 
         public ProductWithHistories(Product product):base(product)
         {

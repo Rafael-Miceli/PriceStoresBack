@@ -60,7 +60,7 @@ namespace Api.Data
                     ProductsHistory,
                     r => r.Id,
                     h => h.Id,
-                    j => j.ProductsHistory
+                    j => j.ProductHistory
                 ).ToListAsync();         
         }
 
