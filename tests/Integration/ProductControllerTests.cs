@@ -5,6 +5,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using Api.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace tests.Integration
 {
@@ -23,6 +25,25 @@ namespace tests.Integration
             Console.WriteLine($"Recebido {result.Count()} produtos");
 
             Assert.IsTrue(result.Count() > 0);
+            // Assert.IsTrue(result.First().MaxPrice > 0);
+            // Assert.IsTrue(result.First().MinPrice > 0);
+        }
+
+        [TestMethod]
+        public async Task Given_A_Valid_Product_When_Creating_Product_Then_Create_Product_With_History()
+        {
+            var productData = new ProductContext();
+            var productService = new ProductApplicationService(productData);
+            var sut = new ProductController(productService);
+
+            var productVm = new ProductVm {
+                Name = "Teste",
+                LastPrice = 2
+            };
+
+            var result = await sut.Post(productVm);   
+
+            Assert.AreEqual(201, (result as CreatedResult).StatusCode);
             // Assert.IsTrue(result.First().MaxPrice > 0);
             // Assert.IsTrue(result.First().MinPrice > 0);
         }

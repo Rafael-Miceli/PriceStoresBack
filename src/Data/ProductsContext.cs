@@ -53,7 +53,7 @@ namespace Api.Data
 
         public async Task<IEnumerable<ProductHistory>> GetAllWithHistory()
         {
-            var ProductWithHistories = await Products
+            var productWithHistories = await Products
                 .Aggregate()
                 .Lookup<Product, ProductHistory, ProductWithHistories>(
                     ProductsHistory,
@@ -61,8 +61,8 @@ namespace Api.Data
                     h => h.Id,
                     j => j.ProductsHistory
                 ).ToListAsync();      
-
-            return null;
+            
+            return productWithHistories.SelectMany(p => p.ProductsHistory);
         }
 
         public async Task<Product> FindByName(string name)

@@ -52,8 +52,15 @@ namespace Api.Models
         }
     }
 
-    public class ProductWithHistories
+    public class ProductWithHistories: ProductHistory
     {
+        public string Name { get; private set; }
+        public float ActualPrice { get; private set; }
+
+        public ProductWithHistories(Product product) : base(product)
+        {
+        }
+
         //Apesar de ser uma lista de historicos vai haver apenas um historico com match de produto.
         //O motivo de ser uma lista é por convenção do Mongo para o Agreggate ($Join)
         public IEnumerable<ProductHistory> ProductsHistory { get; set; }

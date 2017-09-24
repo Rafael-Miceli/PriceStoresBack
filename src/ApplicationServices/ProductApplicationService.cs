@@ -40,7 +40,7 @@ namespace Api.ApplicationServices
 
             //Calcular preços min e max de cada produto
             
-            return null;
+            return products;
         }
     }
 }
