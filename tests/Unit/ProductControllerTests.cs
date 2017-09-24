@@ -7,7 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System;
 
-namespace tests
+namespace tests.Unit
 {
     [TestClass]
     public class ProductControllerTests
