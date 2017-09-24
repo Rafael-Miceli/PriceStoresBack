@@ -28,19 +28,19 @@ namespace Api.ApplicationServices
             await _productContext.AddProduct(product);
         }
 
-        public async Task<ProductDto> FindByName(string productName)
+        public async Task<Product> FindByName(string productName)
         {
             return await _productContext.FindByName(productName);
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAll()
+        public async Task<IEnumerable<ProductHistory>> GetAll()
         {
             Console.WriteLine("Buscando todos os produtos");
             var products = await _productContext.GetAllWithHistory();
 
             //Calcular preços min e max de cada produto
             
-            return products;
+            return null;
         }
     }
 }

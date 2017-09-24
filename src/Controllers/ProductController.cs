@@ -20,14 +20,14 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ProductDto>> Get()
+        public async Task<IEnumerable<ProductHistory>> Get()
         {
             return await _productApplicationService.GetAll();
         }
 
         [HttpPost]
         [Route("api/GetByName")]
-        public async Task<ProductDto> GetbyName([FromBody]string productName)
+        public async Task<Product> GetbyName([FromBody]string productName)
         {
             return await _productApplicationService.FindByName(productName);
         }

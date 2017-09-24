@@ -11,14 +11,14 @@ namespace Api.Data
     public class ProductContext: IProductContext
     {
         private IMongoDatabase _mongoDb;
-        private IMongoCollection<ProductDto> Products {get; set;}
-        private IMongoCollection<Api.Data.Model.ProductHistory> ProductsHistory {get; set;}
+        private IMongoCollection<Product> Products {get; set;}
+        private IMongoCollection<ProductHistory> ProductsHistory {get; set;}
 
         public ProductContext()
         {
             InitializeMongoDatabase();
-            Products = _mongoDb.GetCollection<ProductDto>("products");
-            ProductsHistory = _mongoDb.GetCollection<Api.Data.Model.ProductHistory>("productsHistory");
+            Products = _mongoDb.GetCollection<Product>("products");
+            ProductsHistory = _mongoDb.GetCollection<ProductHistory>("productsHistory");
         }
 
         private void InitializeMongoDatabase()
@@ -37,13 +37,12 @@ namespace Api.Data
 
         public async Task AddProduct(Product product)
         {
-            var productData = new ProductDto(product);
-            await Products.InsertOneAsync(productData);
-            var productHistory = new Api.Data.Model.ProductHistory(product);
+            await Products.InsertOneAsync(product);
+            var productHistory = new ProductHistory(product);
             await ProductsHistory.InsertOneAsync(productHistory);
         }
 
-        public async Task<IEnumerable<ProductDto>> GetAll()
+        public async Task<IEnumerable<Product>> GetAll()
         {
             var dataProducts = Products.Find(_ => true);
             if(!dataProducts.Any())
@@ -52,19 +51,21 @@ namespace Api.Data
             return await dataProducts.ToListAsync();
         }
 
-        public async Task<IEnumerable<ProductWithHistories>> GetAllWithHistory()
+        public async Task<IEnumerable<ProductHistory>> GetAllWithHistory()
         {
-            return await Products
+            var ProductWithHistories = await Products
                 .Aggregate()
-                .Lookup<ProductDto, Api.Data.Model.ProductHistory, ProductWithHistories>(
+                .Lookup<Product, ProductHistory, ProductWithHistories>(
                     ProductsHistory,
                     r => r.Id,
                     h => h.Id,
-                    j => j.ProductHistory
-                ).ToListAsync();         
+                    j => j.ProductsHistory
+                ).ToListAsync();      
+
+            return null;
         }
 
-        public async Task<ProductDto> FindByName(string name)
+        public async Task<Product> FindByName(string name)
         {
             var dataProduct = Products.Find(p => p.Name == name);
             if(!dataProduct.Any())
@@ -77,9 +78,9 @@ namespace Api.Data
     public interface IProductContext
     {
         Task AddProduct(Product product);
-        Task<IEnumerable<ProductDto>> GetAll();
-        Task<ProductDto> FindByName(string name);
-        Task<IEnumerable<ProductWithHistories>> GetAllWithHistory();
+        Task<IEnumerable<Product>> GetAll();
+        Task<Product> FindByName(string name);
+        Task<IEnumerable<ProductHistory>> GetAllWithHistory();
     }    
 }
 
