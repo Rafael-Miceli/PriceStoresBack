@@ -36,6 +36,7 @@ namespace Api.Controllers
         public async Task<IActionResult> Post([FromBody]ProductVm productVm)
         {
             var product = new Product(productVm.Name, productVm.LastPrice);
+            
             try
             {
                 await _productApplicationService.AddProduct(product);            

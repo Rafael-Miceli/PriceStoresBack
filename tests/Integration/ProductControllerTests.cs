@@ -25,8 +25,8 @@ namespace tests.Integration
             Console.WriteLine($"Recebido {result.Count()} produtos");
 
             Assert.IsTrue(result.Count() > 0);
-            // Assert.IsTrue(result.First().MaxPrice > 0);
-            // Assert.IsTrue(result.First().MinPrice > 0);
+            Assert.IsTrue(result.First().ExpensiverPrice > 0);
+            Assert.IsTrue(result.First().CheaperPrice > 0);
         }
 
         [TestMethod]
@@ -44,8 +44,23 @@ namespace tests.Integration
             var result = await sut.Post(productVm);   
 
             Assert.AreEqual(201, (result as CreatedResult).StatusCode);
-            // Assert.IsTrue(result.First().MaxPrice > 0);
-            // Assert.IsTrue(result.First().MinPrice > 0);
+        }
+
+        [TestMethod]
+        public async Task Given_A_Valid_Product_When_Creating_Product_Then_Create_Product_With_History_And_Cheaper_And_Expensiver_Prices_Calculated()
+        {
+            var productData = new ProductContext();
+            var productService = new ProductApplicationService(productData);
+            var sut = new ProductController(productService);
+
+            var productVm = new ProductVm {
+                Name = "Teste 2",
+                LastPrice = 3
+            };
+
+            var result = await sut.Post(productVm);   
+
+            Assert.AreEqual(201, (result as CreatedResult).StatusCode);
         }
     }
 }

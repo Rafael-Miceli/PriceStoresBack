@@ -15,24 +15,20 @@ namespace Api.Models
         public ProductHistory(Product product)
         {            
             Id = product.Id;
-            ProductsOfThePast = new List<ProductOfThePast>();  
-            AddToProductsOfThePast(product);                              
-        }
-
-        public ProductHistory(Product product, List<ProductOfThePast> productsOfThePast)
-        {            
-            Id = product.Id;
-            ProductsOfThePast = productsOfThePast;
-
-            if(ProductsOfThePast == null)
-                ProductsOfThePast = new List<ProductOfThePast>();  
-
-            AddToProductsOfThePast(product);                              
+            ProductsOfThePast = new List<ProductOfThePast>();              
+            AddToProductsOfThePast(product);                               
         }
 
         private void AddToProductsOfThePast(Product product)
         {            
             ProductsOfThePast.Add(new ProductOfThePast(product));      
+            CalculateMinAndMax();           
+        }
+
+        private void CalculateMinAndMax()
+        {
+            CheaperPrice = ProductsOfThePast.Min(p => p.Price);
+            ExpensiverPrice = ProductsOfThePast.Max(p => p.Price);
         }
     }
 

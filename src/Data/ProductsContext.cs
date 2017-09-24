@@ -37,8 +37,11 @@ namespace Api.Data
 
         public async Task AddProduct(Product product)
         {
-            await Products.InsertOneAsync(product);
-            var productHistory = new ProductHistory(product);
+            await Products.InsertOneAsync(product);            
+        }
+
+        public async Task AddProductHistory(ProductHistory productHistory)
+        {            
             await ProductsHistory.InsertOneAsync(productHistory);
         }
 
@@ -81,6 +84,7 @@ namespace Api.Data
         Task<IEnumerable<Product>> GetAll();
         Task<Product> FindByName(string name);
         Task<IEnumerable<ProductHistory>> GetAllWithHistory();
+        Task AddProductHistory(ProductHistory productHistory);
     }    
 }
 

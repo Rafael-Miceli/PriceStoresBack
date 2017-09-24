@@ -26,6 +26,9 @@ namespace Api.ApplicationServices
                 throw new Exception("Um produto com este nome já existe");
 
             await _productContext.AddProduct(product);
+
+            var productHistory = new ProductHistory(product);
+            await _productContext.AddProductHistory(productHistory);
         }
 
         public async Task<Product> FindByName(string productName)
@@ -38,8 +41,6 @@ namespace Api.ApplicationServices
             Console.WriteLine("Buscando todos os produtos");
             var products = await _productContext.GetAllWithHistory();
 
-            //Calcular preços min e max de cada produto
-            
             return products;
         }
     }
