@@ -54,5 +54,30 @@ namespace tests.Unit
 
             Assert.AreEqual(400, (result as BadRequestResult).StatusCode);
         }
+
+        [TestMethod]
+        public async Task Given_A_Valid_Product_When_Creating_Product_Then_Return_Created()
+        {            
+            var productDataMock = new Mock<IProductContext>();
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
+
+            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10});   
+
+            Assert.AreEqual(201, (result as CreatedResult).StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Given_A_Valid_Product_When_Creating_Product_Then_Call_Add_ProductRepo()
+        {            
+            //Terminar de escrever esse teste
+            var productDataMock = new Mock<IProductContext>();
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
+
+            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10});   
+
+            Assert.AreEqual(201, (result as CreatedResult).StatusCode);
+        }
     }
 }
