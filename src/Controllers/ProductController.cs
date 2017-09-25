@@ -35,7 +35,7 @@ namespace Api.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]ProductVm productVm)
         {
-            var product = new Product(productVm.Name, productVm.LastPrice);
+            var product = new Product(productVm.Name, productVm.Price);
             
             try
             {

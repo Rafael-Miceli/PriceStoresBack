@@ -38,7 +38,7 @@ namespace tests.Integration
 
             var productVm = new ProductVm {
                 Name = "Teste",
-                LastPrice = 2
+                Price = 2
             };
 
             var result = await sut.Post(productVm);   
@@ -55,7 +55,7 @@ namespace tests.Integration
 
             var productVm = new ProductVm {
                 Name = "Teste 2",
-                LastPrice = 3
+                Price = 3
             };
 
             var result = await sut.Post(productVm);   

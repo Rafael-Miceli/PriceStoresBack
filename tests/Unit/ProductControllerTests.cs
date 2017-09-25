@@ -6,6 +6,9 @@ using Moq;
 using System.Linq;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Mvc;
+using Api.ViewModels;
+using Api.Models;
 
 namespace tests.Unit
 {
@@ -13,22 +16,43 @@ namespace tests.Unit
     public class ProductControllerTests
     {
         [TestMethod]
-        [Ignore]
-        public async Task When_Listing_Products_Then_Return_Its_Price_And_Min_And_Max_Prices_Also()
-        {
-            //var DummiesProducts = new List<ProductWithHistories>();
+        public async Task Given_A_Product_Without_Price_When_Creating_Product_Then_Return_BadRequest()
+        {            
             var productDataMock = new Mock<IProductContext>();
             //productDataMock.Setup(x => x.GetAllWithHistory()).ReturnsAsync(DummiesProducts);
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Get();   
+            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 0});   
 
-            Console.WriteLine($"Recebido {result.Count()} produtos");
+            Assert.AreEqual(400, (result as BadRequestResult).StatusCode);
+        }
 
-            Assert.IsTrue(result.Count() > 0);
-            // Assert.IsTrue(result.First().MaxPrice > 0);
-            // Assert.IsTrue(result.First().MinPrice > 0);
+        [TestMethod]
+        public async Task Given_A_Product_With_Empty_Name_When_Creating_Product_Then_Return_BadRequest()
+        {            
+            var productDataMock = new Mock<IProductContext>();
+            //productDataMock.Setup(x => x.GetAllWithHistory()).ReturnsAsync(DummiesProducts);
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
+
+            var result = await sut.Post(new ProductVm{Name = "", Price = 10});   
+
+            Assert.AreEqual(400, (result as BadRequestResult).StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Given_A_Product_Already_Exists_When_Creating_Product_Then_Return_BadRequest()
+        {            
+            var dummieProduct = new Product("Teste", 2);
+            var productDataMock = new Mock<IProductContext>();
+            productDataMock.Setup(x => x.FindByName("Teste")).ReturnsAsync(dummieProduct);
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
+
+            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10});   
+
+            Assert.AreEqual(400, (result as BadRequestResult).StatusCode);
         }
     }
 }

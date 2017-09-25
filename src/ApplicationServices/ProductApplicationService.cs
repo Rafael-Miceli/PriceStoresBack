@@ -23,7 +23,10 @@ namespace Api.ApplicationServices
         public async Task AddProduct(Product product)
         {
             if(product.ActualPrice <= 0)
-                throw new Exception("Produto não ter preço Zero ou negativo");
+                throw new Exception("Produto não pode ter preço Zero ou negativo.");
+
+            if(string.IsNullOrEmpty(product.Name))
+                throw new Exception("Produto não pode ter nome vazio.");
 
             if (await FindByName(product.Name) != null)
                 throw new Exception("Um produto com este nome já existe");

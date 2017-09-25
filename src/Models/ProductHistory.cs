@@ -19,7 +19,7 @@ namespace Api.Models
             AddToProductsOfThePast(product);                               
         }
 
-        private void AddToProductsOfThePast(Product product)
+        public void AddToProductsOfThePast(Product product)
         {            
             ProductsOfThePast.Add(new ProductOfThePast(product));      
             CalculateMinAndMax();           
