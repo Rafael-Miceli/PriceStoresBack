@@ -79,5 +79,18 @@ namespace tests.Unit
 
             productDataMock.Verify(x => x.AddProduct(It.IsAny<Product>()), Times.Once);
         }
+
+        [TestMethod]
+        public async Task Given_A_Valid_Product_When_Creating_Product_Then_Call_Add_ProductHistoryRepo()
+        {            
+            //Terminar de escrever esse teste
+            var productDataMock = new Mock<IProductContext>();
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
+
+            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10});   
+
+            productDataMock.Verify(x => x.AddProductHistory(It.IsAny<ProductHistory>()), Times.Once);
+        }
     }
 }
