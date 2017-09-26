@@ -63,7 +63,7 @@ namespace tests.Unit
             var sut = new ProductController(productService);
 
             var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10}) as CreatedResult;   
-            
+
             Assert.AreEqual(201, result.StatusCode);
         }
 
@@ -105,6 +105,21 @@ namespace tests.Unit
             var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
 
             Assert.AreEqual(200, (result as StatusCodeResult).StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Given_A_Valid_Product_When_Updating_ItsPrice_Then_Call_UpdateProductDao()
+        {            
+            var productDummie = new Product("Teste", 2);
+            var productDataMock = new Mock<IProductContext>();
+            productDataMock.Setup(x => x.FindByName("Teste")).ReturnsAsync(productDummie);
+            productDataMock.Setup(x => x.GetHistory(productDummie.Id)).ReturnsAsync(new ProductHistory(productDummie));
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
+
+            var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
+
+            productDataMock.Verify(x => x.Update(It.IsAny<Product>()), Times.Once);
         }
 
         [TestMethod]
