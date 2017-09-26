@@ -25,7 +25,7 @@ namespace tests.Unit
 
             var result = await sut.Post(new ProductVm{Name = "Teste", Price = 0});   
 
-            Assert.AreEqual(400, (result as BadRequestResult).StatusCode);
+            Assert.AreEqual(400, (result as StatusCodeResult).StatusCode);
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace tests.Unit
 
             var result = await sut.Post(new ProductVm{Name = "", Price = 10});   
 
-            Assert.AreEqual(400, (result as BadRequestResult).StatusCode);
+            Assert.AreEqual(400, (result as StatusCodeResult).StatusCode);
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace tests.Unit
 
             var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10});   
 
-            Assert.AreEqual(400, (result as BadRequestResult).StatusCode);
+            Assert.AreEqual(400, (result as StatusCodeResult).StatusCode);
         }
 
         [TestMethod]
@@ -62,9 +62,9 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10});   
-
-            Assert.AreEqual(201, (result as CreatedResult).StatusCode);
+            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10}) as CreatedResult;   
+            
+            Assert.AreEqual(201, result.StatusCode);
         }
 
         [TestMethod]
@@ -95,13 +95,16 @@ namespace tests.Unit
         [TestMethod]
         public async Task Given_A_Valid_Product_When_Updating_ItsPrice_Then_Return_Ok()
         {            
+            var productDummie = new Product("Teste", 2);
             var productDataMock = new Mock<IProductContext>();
+            productDataMock.Setup(x => x.FindByName("Teste")).ReturnsAsync(productDummie);
+            productDataMock.Setup(x => x.GetHistory(productDummie.Id)).ReturnsAsync(new ProductHistory(productDummie));
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
             var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
 
-            Assert.AreEqual(200, (result as CreatedResult).StatusCode);
+            Assert.AreEqual(200, (result as StatusCodeResult).StatusCode);
         }
 
         [TestMethod]
@@ -113,7 +116,7 @@ namespace tests.Unit
 
             var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
 
-            Assert.AreEqual(400, (result as BadRequestResult).StatusCode);
+            Assert.AreEqual(400, (result as StatusCodeResult).StatusCode);
         }
     }
 }
