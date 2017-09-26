@@ -27,5 +27,12 @@ namespace Api.Models
             //Notify
             //History.Add(new ProductHistory(this));            
         }
+
+        public void UpdateName(string name)
+        {
+            Name = name;
+            //Notify
+            //History.Add(new ProductHistory(this));            
+        }
     }        
 }

@@ -76,6 +76,15 @@ namespace Api.Data
             
             return await dataProduct.FirstOrDefaultAsync();    
         }        
+
+        public async Task<ProductHistory> GetHistory(string id)
+        {
+            var dataProduct = ProductsHistory.Find(p => p.Id == id);
+            if(!dataProduct.Any())
+                return null;           
+            
+            return await dataProduct.FirstOrDefaultAsync();    
+        }     
     }
 
     public interface IProductContext
@@ -85,6 +94,7 @@ namespace Api.Data
         Task<Product> FindByName(string name);
         Task<IEnumerable<ProductHistory>> GetAllWithHistory();
         Task AddProductHistory(ProductHistory productHistory);
+        Task<ProductHistory> GetHistory(string id);
     }    
 }
 

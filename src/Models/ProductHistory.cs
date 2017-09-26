@@ -60,14 +60,5 @@ namespace Api.Models
         //Apesar de ser uma lista de historicos vai haver apenas um historico com match de produto.
         //O motivo de ser uma lista é por convenção do Mongo para o Agreggate ($Join)
         public IEnumerable<ProductHistory> ProductsHistory { get; set; }
-
-
-        // public async Task CalculateMinAndMax()
-        // {
-        //     await Task.Run(() => {
-        //         MinPrice = ProductsHistory.First().ProductsOfThePast.Min(p => p.ActualPrice);
-        //         MaxPrice = ProductsHistory.First().ProductsOfThePast.Max(p => p.ActualPrice);
-        //     });
-        // }
     }
 }

@@ -49,14 +49,21 @@ namespace Api.Controllers
             }            
         }
 
-        // PUT api/values/5
         [HttpPut]
-        public void Put([FromBody]ProductVm productVm)
-        {
-            var product = _productApplicationService.FindByName(productVm.Name);
+        public async Task<IActionResult> Put([FromBody]ProductUpdateVm productVm)
+        {            
+            try
+            {
+                await _productApplicationService.UpdateProduct(productVm.OldName, productVm.NewName, productVm.Price);            
+                return Ok();
+            } 
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                return BadRequest();
+            }                        
         }
 
-        // DELETE api/values/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {

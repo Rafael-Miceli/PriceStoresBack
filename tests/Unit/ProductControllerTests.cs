@@ -70,7 +70,6 @@ namespace tests.Unit
         [TestMethod]
         public async Task Given_A_Valid_Product_When_Creating_Product_Then_Call_Add_ProductRepo()
         {            
-            //Terminar de escrever esse teste
             var productDataMock = new Mock<IProductContext>();
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
@@ -83,7 +82,6 @@ namespace tests.Unit
         [TestMethod]
         public async Task Given_A_Valid_Product_When_Creating_Product_Then_Call_Add_ProductHistoryRepo()
         {            
-            //Terminar de escrever esse teste
             var productDataMock = new Mock<IProductContext>();
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
@@ -91,6 +89,31 @@ namespace tests.Unit
             var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10});   
 
             productDataMock.Verify(x => x.AddProductHistory(It.IsAny<ProductHistory>()), Times.Once);
+        }
+
+
+        [TestMethod]
+        public async Task Given_A_Valid_Product_When_Updating_ItsPrice_Then_Return_Ok()
+        {            
+            var productDataMock = new Mock<IProductContext>();
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
+
+            var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
+
+            Assert.AreEqual(200, (result as CreatedResult).StatusCode);
+        }
+
+        [TestMethod]
+        public async Task Given_An_Inexistent_Product_When_Updating_It_Then_Return_BadRequest()
+        {            
+            var productDataMock = new Mock<IProductContext>();
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
+
+            var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
+
+            Assert.AreEqual(400, (result as BadRequestResult).StatusCode);
         }
     }
 }

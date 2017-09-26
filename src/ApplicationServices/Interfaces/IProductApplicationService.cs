@@ -10,5 +10,6 @@ namespace Api.ApplicationServices.Interfaces
         Task AddProduct(Product product);
         Task<Product> FindByName(string productName);
         Task<IEnumerable<ProductHistory>> GetAll();
+        Task UpdateProduct(string productOldName, string nameToUpdate, float priceToUpdate);
     }
 }

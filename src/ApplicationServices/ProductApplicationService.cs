@@ -49,5 +49,23 @@ namespace Api.ApplicationServices
 
             return products;
         }
+
+        public async Task UpdateProduct(string productOldName, string nameToUpdate, float priceToUpdate)
+        {
+            var product = await FindByName(productOldName);
+
+            if(product == null)  
+                throw new Exception($"Produto com o nome {productOldName} não existe");
+            
+            product.UpdatePrice(priceToUpdate);
+            product.UpdateName(nameToUpdate);
+
+            var productHistory = await _productContext.GetHistory(product.Id);
+
+            if(productHistory == null)  
+                throw new Exception($"Produto {productOldName} corrompido!!!");
+
+            productHistory.AddToProductsOfThePast(product);
+        }
     }
 }
