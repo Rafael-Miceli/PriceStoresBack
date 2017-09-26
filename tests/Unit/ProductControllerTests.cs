@@ -77,7 +77,7 @@ namespace tests.Unit
 
             var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10});   
 
-            Assert.AreEqual(201, (result as CreatedResult).StatusCode);
+            productDataMock.Verify(x => x.AddProduct(It.IsAny<Product>()), Times.Once);
         }
     }
 }
