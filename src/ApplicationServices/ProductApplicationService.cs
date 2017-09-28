@@ -68,6 +68,7 @@ namespace Api.ApplicationServices
             productHistory.AddToProductsOfThePast(product);
 
             await _productContext.Update(product);
+            await _productContext.UpdateProductHistory(productHistory);
         }
     }
 }

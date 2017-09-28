@@ -123,6 +123,21 @@ namespace tests.Unit
         }
 
         [TestMethod]
+        public async Task Given_A_Valid_Product_When_Updating_ItsPrice_Then_Call_UpdateProductHistoryDao()
+        {            
+            var productDummie = new Product("Teste", 2);
+            var productDataMock = new Mock<IProductContext>();
+            productDataMock.Setup(x => x.FindByName("Teste")).ReturnsAsync(productDummie);
+            productDataMock.Setup(x => x.GetHistory(productDummie.Id)).ReturnsAsync(new ProductHistory(productDummie));
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
+
+            var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
+
+            productDataMock.Verify(x => x.UpdateProductHistory(It.IsAny<ProductHistory>()), Times.Once);
+        }
+
+        [TestMethod]
         public async Task Given_An_Inexistent_Product_When_Updating_It_Then_Return_BadRequest()
         {            
             var productDataMock = new Mock<IProductContext>();
