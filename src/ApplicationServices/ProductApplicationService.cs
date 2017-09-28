@@ -66,6 +66,8 @@ namespace Api.ApplicationServices
                 throw new Exception($"Produto {productOldName} corrompido!!!");
 
             productHistory.AddToProductsOfThePast(product);
+
+            await _productContext.Update(product);
         }
     }
 }
