@@ -45,7 +45,7 @@ namespace Api.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return BadRequest();
+                return BadRequest(ex.Message);
             }            
         }
 
@@ -60,7 +60,7 @@ namespace Api.Controllers
             catch (Exception ex)
             {
                 Console.WriteLine(ex);
-                return BadRequest();
+                return BadRequest(ex.Message);
             }                        
         }
 

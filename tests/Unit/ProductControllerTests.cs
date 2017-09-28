@@ -25,7 +25,7 @@ namespace tests.Unit
 
             var result = await sut.Post(new ProductVm{Name = "Teste", Price = 0});   
 
-            Assert.AreEqual(400, (result as StatusCodeResult).StatusCode);
+            Assert.AreEqual(400, (result as ObjectResult).StatusCode);
         }
 
         [TestMethod]
@@ -38,7 +38,7 @@ namespace tests.Unit
 
             var result = await sut.Post(new ProductVm{Name = "", Price = 10});   
 
-            Assert.AreEqual(400, (result as StatusCodeResult).StatusCode);
+            Assert.AreEqual(400, (result as ObjectResult).StatusCode);
         }
 
         [TestMethod]
@@ -52,7 +52,7 @@ namespace tests.Unit
 
             var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10});   
 
-            Assert.AreEqual(400, (result as StatusCodeResult).StatusCode);
+            Assert.AreEqual(400, (result as ObjectResult).StatusCode);
         }
 
         [TestMethod]
@@ -62,7 +62,7 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10}) as CreatedResult;   
+            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10}) as ObjectResult;   
 
             Assert.AreEqual(201, result.StatusCode);
         }
@@ -146,7 +146,22 @@ namespace tests.Unit
 
             var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
 
-            Assert.AreEqual(400, (result as StatusCodeResult).StatusCode);
+            Assert.AreEqual(400, (result as ObjectResult).StatusCode);
         }
-    }
+
+        // [TestMethod]
+        // public async Task Given_A_Product_When_Updating_It_To_A_Name_Already_Existent_Then_Do_Not_CallUpdate()
+        // {            
+        //     var productDummie = new Product("Teste new", 3);
+        //     var productDataMock = new Mock<IProductContext>();
+        //     productDataMock.Setup(x => x.FindByName("Teste")).ReturnsAsync(productDummie);
+        //     productDataMock.Setup(x => x.GetHistory(productDummie.Id)).ReturnsAsync(new ProductHistory(productDummie));
+        //     var productService = new ProductApplicationService(productDataMock.Object);
+        //     var sut = new ProductController(productService);
+
+        //     var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
+
+        //     productDataMock.Verify(x => x.GetHistory(It.IsAny<string>()), Times.Never());
+        // }
+    }    
 }
