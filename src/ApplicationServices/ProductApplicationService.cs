@@ -52,7 +52,9 @@ namespace Api.ApplicationServices
 
         public async Task UpdateProduct(string productOldName, string nameToUpdate, float priceToUpdate)
         {
-            if(await ProductAlreadyExistsWithName(nameToUpdate))
+            nameToUpdate = nameToUpdate.Trim();
+
+            if(productOldName != nameToUpdate && await ProductAlreadyExistsWithName(nameToUpdate))
                 throw new Exception($"Produto com o nome {nameToUpdate} já existe");
 
             var product = await FindByName(productOldName);

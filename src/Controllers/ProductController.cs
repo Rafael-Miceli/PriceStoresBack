@@ -55,7 +55,7 @@ namespace Api.Controllers
             try
             {
                 await _productApplicationService.UpdateProduct(productVm.OldName, productVm.NewName, productVm.Price);            
-                return Ok();
+                return Ok(productVm);
             } 
             catch (Exception ex)
             {

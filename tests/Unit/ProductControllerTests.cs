@@ -104,7 +104,7 @@ namespace tests.Unit
 
             var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
 
-            Assert.AreEqual(200, (result as StatusCodeResult).StatusCode);
+            Assert.AreEqual(200, (result as ObjectResult).StatusCode);
         }
 
         [TestMethod]
@@ -150,6 +150,59 @@ namespace tests.Unit
         }
 
         [TestMethod]
+        public async Task Given_A_Product_When_Updating_It_And_Name_Dont_Change_Then_Call_Update()
+        {            
+            var productDummie = new Product("Teste new", 3);
+            var productVm = new ProductUpdateVm{OldName = "Teste", NewName = "Teste", Price = 10};
+            var productDataMock = new Mock<IProductContext>();
+            productDataMock.Setup(x => x.FindByName(productVm.NewName)).ReturnsAsync(productDummie);
+            productDataMock.Setup(x => x.FindByName(productVm.OldName)).ReturnsAsync(productDummie);
+            productDataMock.Setup(x => x.GetHistory(productDummie.Id)).ReturnsAsync(new ProductHistory(productDummie));
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
+
+            var result = await sut.Put(productVm);   
+
+            productDataMock.Verify(x => x.Update(It.IsAny<Product>()), Times.Once());
+        }
+
+        [TestMethod]
+        public async Task Given_A_Product_With_Extra_Spaces_Already_Exists_When_Updating_It_Then_Call_Update_Without_Extra_Spaces()
+        {            
+            var productDummie = new Product("Teste", 3);
+            var productVm = new ProductUpdateVm{OldName = "Teste", NewName = " Teste ", Price = 10};
+            var productDataMock = new Mock<IProductContext>();
+            productDataMock.Setup(x => x.FindByName(productDummie.Name)).ReturnsAsync(productDummie);
+            productDataMock.Setup(x => x.FindByName(productVm.OldName)).ReturnsAsync(productDummie);            
+            productDataMock.Setup(x => x.GetHistory(productDummie.Id)).ReturnsAsync(new ProductHistory(productDummie));
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
+
+            var result = await sut.Put(productVm) as ObjectResult;   
+
+            productDataMock.Verify(x => x.Update(It.Is<Product>(p => p.Name == productVm.OldName)), Times.Once());            
+        }
+
+
+        //Por enquanto somos case sensitive
+        // [TestMethod]
+        // public async Task Given_A_Product_With_Different_Case_Already_Exists_When_Updating_It_Then_Call_Update_Without_Diferrent_Case()
+        // {            
+        //     var productDummie = new Product("Teste", 3);
+        //     var productVm = new ProductUpdateVm{OldName = "Teste", NewName = "TestE", Price = 10};
+        //     var productDataMock = new Mock<IProductContext>();
+        //     productDataMock.Setup(x => x.FindByName(productDummie.Name)).ReturnsAsync(productDummie);
+        //     productDataMock.Setup(x => x.FindByName(productVm.OldName)).ReturnsAsync(productDummie);            
+        //     productDataMock.Setup(x => x.GetHistory(productDummie.Id)).ReturnsAsync(new ProductHistory(productDummie));
+        //     var productService = new ProductApplicationService(productDataMock.Object);
+        //     var sut = new ProductController(productService);
+
+        //     var result = await sut.Put(productVm) as ObjectResult;   
+
+        //     productDataMock.Verify(x => x.Update(It.Is<Product>(p => p.Name == productVm.OldName)), Times.Once());            
+        // }
+
+        [TestMethod]
         public async Task Given_A_Product_When_Updating_It_To_A_Name_Already_Existent_Then_Do_Not_CallUpdate()
         {            
             var productDummie = new Product("Teste new", 3);
@@ -164,6 +217,25 @@ namespace tests.Unit
             productDataMock.Verify(x => x.GetHistory(It.IsAny<string>()), Times.Never());
             productDataMock.Verify(x => x.Update(It.IsAny<Product>()), Times.Never());
         }
+
+        //Ajustar este teste
+        // [TestMethod]
+        // public async Task Given_A_Product_When_Updating_It_To_A_Name_Already_Existent_With_Trim_Spaces_Then_Do_Not_CallUpdate()
+        // {            
+        //     var productDummie = new Product("Teste new", 3);
+        //     var productVm = new ProductUpdateVm{OldName = "Teste", NewName = " Teste ", Price = 10};
+        //     var productDataMock = new Mock<IProductContext>();
+        //     productDataMock.Setup(x => x.FindByName(productVm.NewName)).ReturnsAsync(productDummie);
+        //     productDataMock.Setup(x => x.FindByName(productVm.OldName)).ReturnsAsync(productDummie);
+        //     productDataMock.Setup(x => x.GetHistory(productDummie.Id)).ReturnsAsync(new ProductHistory(productDummie));
+        //     var productService = new ProductApplicationService(productDataMock.Object);
+        //     var sut = new ProductController(productService);
+
+        //     var result = await sut.Put(productVm);   
+
+        //     productDataMock.Verify(x => x.GetHistory(It.IsAny<string>()), Times.Never());
+        //     productDataMock.Verify(x => x.Update(It.IsAny<Product>()), Times.Never());
+        // }
 
         [TestMethod]
         public async Task Given_A_Product_When_Updating_It_To_A_Name_Already_Existent_Then_Return_BadRequest()
