@@ -40,6 +40,12 @@ namespace Api.Data
             await Products.InsertOneAsync(product);            
         }
 
+        public async Task Update(Product product)
+        {
+            //Update
+            //await Products.InsertOneAsync(product);            
+        }
+
         public async Task AddProductHistory(ProductHistory productHistory)
         {            
             await ProductsHistory.InsertOneAsync(productHistory);
@@ -90,6 +96,7 @@ namespace Api.Data
     public interface IProductContext
     {
         Task AddProduct(Product product);
+        Task Update(Product product);
         Task<IEnumerable<Product>> GetAll();
         Task<Product> FindByName(string name);
         Task<IEnumerable<ProductHistory>> GetAllWithHistory();
