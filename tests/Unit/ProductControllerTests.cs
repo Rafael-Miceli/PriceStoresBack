@@ -219,23 +219,23 @@ namespace tests.Unit
         }
 
         //Ajustar este teste
-        // [TestMethod]
-        // public async Task Given_A_Product_When_Updating_It_To_A_Name_Already_Existent_With_Trim_Spaces_Then_Do_Not_CallUpdate()
-        // {            
-        //     var productDummie = new Product("Teste new", 3);
-        //     var productVm = new ProductUpdateVm{OldName = "Teste", NewName = " Teste ", Price = 10};
-        //     var productDataMock = new Mock<IProductContext>();
-        //     productDataMock.Setup(x => x.FindByName(productVm.NewName)).ReturnsAsync(productDummie);
-        //     productDataMock.Setup(x => x.FindByName(productVm.OldName)).ReturnsAsync(productDummie);
-        //     productDataMock.Setup(x => x.GetHistory(productDummie.Id)).ReturnsAsync(new ProductHistory(productDummie));
-        //     var productService = new ProductApplicationService(productDataMock.Object);
-        //     var sut = new ProductController(productService);
+        [TestMethod]
+        public async Task Given_A_Product_When_Updating_It_To_A_Name_Already_Existent_With_Trim_Spaces_Then_Do_Not_CallUpdate()
+        {            
+            var productDummie = new Product("Teste no BD", 3);
+            var productVm = new ProductUpdateVm{OldName = "Teste", NewName = " Teste no BD ", Price = 10};
+            var productDataMock = new Mock<IProductContext>();
+            productDataMock.Setup(x => x.FindByName(productDummie.Name)).ReturnsAsync(productDummie);
+            productDataMock.Setup(x => x.FindByName(productVm.OldName)).ReturnsAsync(productDummie);            
+            productDataMock.Setup(x => x.GetHistory(productDummie.Id)).ReturnsAsync(new ProductHistory(productDummie));
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
 
-        //     var result = await sut.Put(productVm);   
+            var result = await sut.Put(productVm);   
 
-        //     productDataMock.Verify(x => x.GetHistory(It.IsAny<string>()), Times.Never());
-        //     productDataMock.Verify(x => x.Update(It.IsAny<Product>()), Times.Never());
-        // }
+            productDataMock.Verify(x => x.GetHistory(It.IsAny<string>()), Times.Never());
+            productDataMock.Verify(x => x.Update(It.IsAny<Product>()), Times.Never());
+        }
 
         [TestMethod]
         public async Task Given_A_Product_When_Updating_It_To_A_Name_Already_Existent_Then_Return_BadRequest()
