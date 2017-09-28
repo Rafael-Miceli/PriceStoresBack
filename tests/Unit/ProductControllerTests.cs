@@ -164,5 +164,20 @@ namespace tests.Unit
             productDataMock.Verify(x => x.GetHistory(It.IsAny<string>()), Times.Never());
             productDataMock.Verify(x => x.Update(It.IsAny<Product>()), Times.Never());
         }
+
+        [TestMethod]
+        public async Task Given_A_Product_When_Updating_It_To_A_Name_Already_Existent_Then_Return_BadRequest()
+        {            
+            var productDummie = new Product("Teste new", 3);
+            var productDataMock = new Mock<IProductContext>();
+            productDataMock.Setup(x => x.FindByName("Teste new")).ReturnsAsync(productDummie);
+            productDataMock.Setup(x => x.GetHistory(productDummie.Id)).ReturnsAsync(new ProductHistory(productDummie));
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
+
+            var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
+
+            Assert.AreEqual(400, (result as ObjectResult).StatusCode);
+        }
     }    
 }
