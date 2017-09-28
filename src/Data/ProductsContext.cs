@@ -41,15 +41,13 @@ namespace Api.Data
         }
 
         public async Task Update(Product product)
-        {
-            //Update
-            //await Products.InsertOneAsync(product);            
+        {            
+            await Products.ReplaceOneAsync(p => p.Id == product.Id, product);            
         }
 
-        public async Task UpdateProductHistory(ProductHistory product)
+        public async Task UpdateProductHistory(ProductHistory productHistory)
         {
-            //Update
-            //await ProductsHistory.InsertOneAsync(product);            
+            await ProductsHistory.ReplaceOneAsync(h => h.Id == productHistory.Id, productHistory);            
         }
 
         public async Task AddProductHistory(ProductHistory productHistory)
