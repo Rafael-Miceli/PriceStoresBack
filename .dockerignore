@@ -1,0 +1,10 @@
+**/bin/
+**/obj/
+**/.git/
+**/.vscode/
+**/.vs/
+**/.dockerignore
+**/.gitignore
+**/Dockerfile*
+**/docker-compose*.yml
+tests/Integration
