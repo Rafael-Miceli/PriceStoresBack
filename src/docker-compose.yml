@@ -1,12 +1,13 @@
 version: '3.1'
 
 services:  
-  mongo:
-    ports:
-      - "27017:27017"      
-    image: "mongo"
   price-stores:  
     build:
       context: .
     ports: 
       - "5001:80"
+  mongo:
+    ports:
+      - "27017:27017"      
+    image: "mongo"
+  
