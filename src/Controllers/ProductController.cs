@@ -20,9 +20,17 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ProductHistory>> Get()
+        public async Task<IEnumerable<ProductResumeVm>> Get()
         {
-            return await _productApplicationService.GetAll();
+            var products = await _productApplicationService.GetAll();
+            var productsResume = products.Select(p => new ProductResumeVm{
+                Name = p.ProductsOfThePast.Last().Name,
+                LastPrice = p.ProductsOfThePast.Last().Price,
+                HigherPrice = p.ExpensiverPrice,
+                LowerPrice = p.CheaperPrice
+            });
+            
+            return productsResume;
         }
 
         [HttpPost]
