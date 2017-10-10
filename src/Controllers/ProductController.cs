@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Api.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace Api.Controllers
 {
@@ -21,7 +22,8 @@ namespace Api.Controllers
 
         [HttpGet]
         public async Task<IEnumerable<ProductResumeVm>> Get()
-        {
+        {           
+
             var products = await _productApplicationService.GetAll();
             var productsResume = products.Select(p => new ProductResumeVm{
                 Name = p.ProductsOfThePast.Last().Name,
