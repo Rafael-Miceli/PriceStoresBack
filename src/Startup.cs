@@ -27,9 +27,7 @@ namespace Api
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {       
-            Console.WriteLine(Configuration["MongoConnection"]);
-
+        {   
             services.AddCors(opt => opt.AddPolicy("CorsPolicy",
             builder => 
                 builder.AllowAnyOrigin()
@@ -41,7 +39,7 @@ namespace Api
             opt.Filters.Add(new CorsAuthorizationFilterFactory("CorsPolicy")));
 
             services.AddTransient<IProductApplicationService, ProductApplicationService>();
-            services.AddTransient<IProductContext, ProductContext>();            
+            services.AddSingleton<IProductContext>(new ProductContext(Configuration.GetConnectionString("MongoConnection")));                        
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

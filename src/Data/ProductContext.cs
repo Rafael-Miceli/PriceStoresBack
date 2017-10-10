@@ -13,9 +13,11 @@ namespace Api.Data
         private IMongoDatabase _mongoDb;
         private IMongoCollection<Product> Products {get; set;}
         private IMongoCollection<ProductHistory> ProductsHistory {get; set;}
+        private string _connectionString;
 
-        public ProductContext()
+        public ProductContext(string connectionString)
         {
+            _connectionString = connectionString;
             InitializeMongoDatabase();
             Products = _mongoDb.GetCollection<Product>("products");
             ProductsHistory = _mongoDb.GetCollection<ProductHistory>("productsHistory");
@@ -27,7 +29,8 @@ namespace Api.Data
             {
                 //var client = new MongoClient("mongodb://mongo:27017");                
                 //var client = new MongoClient("mongodb://192.168.99.100:27017");
-                var client = new MongoClient("mongodb://localhost:27017");
+                //var client = new MongoClient("mongodb://localhost:27017");
+                var client = new MongoClient(_connectionString);
                 _mongoDb = client.GetDatabase("local");
             }
             catch (Exception ex) 
