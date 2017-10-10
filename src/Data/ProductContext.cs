@@ -13,7 +13,7 @@ namespace Api.Data
         private IMongoDatabase _mongoDb;
         private IMongoCollection<Product> Products {get; set;}
         private IMongoCollection<ProductHistory> ProductsHistory {get; set;}
-        private string _connectionString;
+        private string _connectionString = string.Empty;
 
         public ProductContext(string connectionString)
         {
