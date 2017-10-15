@@ -31,7 +31,7 @@ namespace Api.Data
                 //var client = new MongoClient("mongodb://192.168.99.100:27017");
                 //var client = new MongoClient("mongodb://localhost:27017");
                 var client = new MongoClient(_connectionString);
-                _mongoDb = client.GetDatabase("local");
+                _mongoDb = client.GetDatabase("test");
             }
             catch (Exception ex) 
             { 

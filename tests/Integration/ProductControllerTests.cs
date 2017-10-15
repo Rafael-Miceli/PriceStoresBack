@@ -16,7 +16,7 @@ namespace tests.Integration
         [TestMethod]
         public async Task When_Listing_Products_Then_Return_Its_Price_And_Min_And_Max_Prices_Also()
         {
-            var productData = new ProductContext();
+            var productData = new ProductContext("");
             var productService = new ProductApplicationService(productData);
             var sut = new ProductController(productService);
 
@@ -25,14 +25,14 @@ namespace tests.Integration
             Console.WriteLine($"Recebido {result.Count()} produtos");
 
             Assert.IsTrue(result.Count() > 0);
-            Assert.IsTrue(result.First().ExpensiverPrice > 0);
-            Assert.IsTrue(result.First().CheaperPrice > 0);
+            Assert.IsTrue(result.First().HigherPrice > 0);
+            Assert.IsTrue(result.First().LowerPrice > 0);
         }
 
         [TestMethod]
         public async Task Given_A_Valid_Product_When_Creating_Product_Then_Create_Product_With_History()
         {
-            var productData = new ProductContext();
+            var productData = new ProductContext("");
             var productService = new ProductApplicationService(productData);
             var sut = new ProductController(productService);
 
@@ -49,7 +49,7 @@ namespace tests.Integration
         [TestMethod]
         public async Task Given_A_Valid_Product_When_Creating_Product_Then_Create_Product_With_History_And_Cheaper_And_Expensiver_Prices_Calculated()
         {
-            var productData = new ProductContext();
+            var productData = new ProductContext("");
             var productService = new ProductApplicationService(productData);
             var sut = new ProductController(productService);
 
