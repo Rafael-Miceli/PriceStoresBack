@@ -22,17 +22,24 @@ namespace Api.Controllers
 
         [HttpGet]
         public async Task<IEnumerable<ProductResumeVm>> Get()
-        {           
+        {
+            try
+            {
+                var products = await _productApplicationService.GetAll();
+                var productsResume = products.Select(p => new ProductResumeVm
+                {
+                    Name = p.ProductsOfThePast.Last().Name,
+                    LastPrice = p.ProductsOfThePast.Last().Price,
+                    HigherPrice = p.ExpensiverPrice,
+                    LowerPrice = p.CheaperPrice
+                });
 
-            var products = await _productApplicationService.GetAll();
-            var productsResume = products.Select(p => new ProductResumeVm{
-                Name = p.ProductsOfThePast.Last().Name,
-                LastPrice = p.ProductsOfThePast.Last().Price,
-                HigherPrice = p.ExpensiverPrice,
-                LowerPrice = p.CheaperPrice
-            });
-            
-            return productsResume;
+                return productsResume;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }            
         }
 
         [HttpPost]
