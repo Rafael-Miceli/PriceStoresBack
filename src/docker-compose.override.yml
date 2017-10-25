@@ -4,11 +4,11 @@ services:
   price-stores:  
     build: .
     ports: 
-      - "5001:80"
+      - "5000:80"
     depends_on:
       - mongo
     environment:
-      ConnectionStrings__MongoConnection=mongodb://mongo:27017
+      - ConnectionStrings__MongoConnection=mongodb://mongo:27017
   mongo:
     image: "mongo"
     ports: 
