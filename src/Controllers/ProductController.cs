@@ -30,7 +30,7 @@ namespace Api.Controllers
                                     .GroupBy(g => g.ProductsOfThePast.Last().Category)
                                     .Select(p => new ProductResumeGroupedByCategoryVm
                                     {
-                                        CategoryName = p.Key == null ? "Descobrir" : p.Key.Name,
+                                        CategoryName = p.Key == null ? "Sem Categoria" : p.Key.Name,
                                         Products = p.Select(s => new ProductResumeVm {
                                             Name = s.ProductsOfThePast.Last().Name,
                                             LastPrice = s.ProductsOfThePast.Last().Price,
