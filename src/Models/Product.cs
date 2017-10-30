@@ -10,6 +10,7 @@ namespace Api.Models
         public string Id { get; private set; }
         public string Name { get; private set; }
         public float ActualPrice { get; private set; }
+        public ProductCategory Category { get; set; }
 
         public Product(string name, float actualPrice)
         {            

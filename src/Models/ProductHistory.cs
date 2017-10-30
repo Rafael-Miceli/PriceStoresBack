@@ -38,6 +38,7 @@ namespace Api.Models
         public string Name { get; private set; }
         public float Price { get; private set; }
         public DateTime DateTimeProductChanged { get; private set; }
+        public ProductCategory Category { get; set; }
 
         public ProductOfThePast(Product product)
         {

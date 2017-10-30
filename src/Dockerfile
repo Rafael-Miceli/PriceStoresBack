@@ -12,3 +12,6 @@ FROM microsoft/aspnetcore:latest
 WORKDIR /publish
 COPY --from=build-env /publish .
 ENTRYPOINT ["dotnet", "Api.dll"]
+
+#Command with compose
+# docker-compose -f docker-compose.yml -f docker-compose.prod.yml up --force-recreate --build
