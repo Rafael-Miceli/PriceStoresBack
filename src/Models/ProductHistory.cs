@@ -10,7 +10,8 @@ namespace Api.Models
         public string Id { get; set; }
         public List<ProductOfThePast> ProductsOfThePast { get; private set; }   
         public float CheaperPrice { get; private set; }     
-        public float ExpensiverPrice { get; private set; }     
+        public float ExpensiverPrice { get; private set; }
+        public ProductCategory Category { get; set; }
 
         public ProductHistory(Product product)
         {            
