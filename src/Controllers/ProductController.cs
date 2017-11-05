@@ -55,7 +55,7 @@ namespace Api.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]ProductVm productVm)
+        public async Task<IActionResult> Post([FromBody]CreateProductVm productVm)
         {
             var product = new Product(productVm.Name, productVm.Price);
             
@@ -72,7 +72,7 @@ namespace Api.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> Put([FromBody]ProductUpdateVm productVm)
+        public async Task<IActionResult> Put([FromBody]UpdateProductVm productVm)
         {            
             try
             {

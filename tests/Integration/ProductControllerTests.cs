@@ -69,7 +69,7 @@ namespace tests.Integration
             var productService = new ProductApplicationService(productData);
             var sut = new ProductController(productService);
 
-            var productVm = new ProductVm {
+            var productVm = new CreateProductVm {
                 Name = "Teste",
                 Price = 2
             };
@@ -87,7 +87,7 @@ namespace tests.Integration
             var productService = new ProductApplicationService(productData);
             var sut = new ProductController(productService);
 
-            var productVm = new ProductVm {
+            var productVm = new CreateProductVm {
                 Name = "Teste 2",
                 Price = 3
             };

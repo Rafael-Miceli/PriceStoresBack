@@ -23,7 +23,7 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 0});   
+            var result = await sut.Post(new CreateProductVm{Name = "Teste", Price = 0});   
 
             Assert.AreEqual(400, (result as ObjectResult).StatusCode);
         }
@@ -36,7 +36,7 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Post(new ProductVm{Name = "", Price = 10});   
+            var result = await sut.Post(new CreateProductVm{Name = "", Price = 10});   
 
             Assert.AreEqual(400, (result as ObjectResult).StatusCode);
         }
@@ -50,7 +50,7 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10});   
+            var result = await sut.Post(new CreateProductVm{Name = "Teste", Price = 10});   
 
             Assert.AreEqual(400, (result as ObjectResult).StatusCode);
         }
@@ -62,7 +62,7 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10}) as ObjectResult;   
+            var result = await sut.Post(new CreateProductVm{Name = "Teste", Price = 10}) as ObjectResult;   
 
             Assert.AreEqual(201, result.StatusCode);
         }
@@ -74,7 +74,7 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10});   
+            var result = await sut.Post(new CreateProductVm{Name = "Teste", Price = 10});   
 
             productDataMock.Verify(x => x.AddProduct(It.IsAny<Product>()), Times.Once);
         }
@@ -86,7 +86,7 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Post(new ProductVm{Name = "Teste", Price = 10});   
+            var result = await sut.Post(new CreateProductVm{Name = "Teste", Price = 10});   
 
             productDataMock.Verify(x => x.AddProductHistory(It.IsAny<ProductHistory>()), Times.Once);
         }
@@ -102,7 +102,7 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
+            var result = await sut.Put(new UpdateProductVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
 
             Assert.AreEqual(200, (result as ObjectResult).StatusCode);
         }
@@ -117,7 +117,7 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
+            var result = await sut.Put(new UpdateProductVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
 
             productDataMock.Verify(x => x.Update(It.IsAny<Product>()), Times.Once);
         }
@@ -132,7 +132,7 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
+            var result = await sut.Put(new UpdateProductVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
 
             productDataMock.Verify(x => x.UpdateProductHistory(It.IsAny<ProductHistory>()), Times.Once);
         }
@@ -144,7 +144,7 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
+            var result = await sut.Put(new UpdateProductVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
 
             Assert.AreEqual(400, (result as ObjectResult).StatusCode);
         }
@@ -153,7 +153,7 @@ namespace tests.Unit
         public async Task Given_A_Product_When_Updating_It_And_Name_Dont_Change_Then_Call_Update()
         {            
             var productDummie = new Product("Teste new", 3);
-            var productVm = new ProductUpdateVm{OldName = "Teste", NewName = "Teste", Price = 10};
+            var productVm = new UpdateProductVm{OldName = "Teste", NewName = "Teste", Price = 10};
             var productDataMock = new Mock<IProductContext>();
             productDataMock.Setup(x => x.FindByName(productVm.NewName)).ReturnsAsync(productDummie);
             productDataMock.Setup(x => x.FindByName(productVm.OldName)).ReturnsAsync(productDummie);
@@ -170,7 +170,7 @@ namespace tests.Unit
         public async Task Given_A_Product_With_Extra_Spaces_Already_Exists_When_Updating_It_Then_Call_Update_Without_Extra_Spaces()
         {            
             var productDummie = new Product("Teste", 3);
-            var productVm = new ProductUpdateVm{OldName = "Teste", NewName = " Teste ", Price = 10};
+            var productVm = new UpdateProductVm{OldName = "Teste", NewName = " Teste ", Price = 10};
             var productDataMock = new Mock<IProductContext>();
             productDataMock.Setup(x => x.FindByName(productDummie.Name)).ReturnsAsync(productDummie);
             productDataMock.Setup(x => x.FindByName(productVm.OldName)).ReturnsAsync(productDummie);            
@@ -212,7 +212,7 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
+            var result = await sut.Put(new UpdateProductVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
 
             productDataMock.Verify(x => x.GetHistory(It.IsAny<string>()), Times.Never());
             productDataMock.Verify(x => x.Update(It.IsAny<Product>()), Times.Never());
@@ -223,7 +223,7 @@ namespace tests.Unit
         public async Task Given_A_Product_When_Updating_It_To_A_Name_Already_Existent_With_Trim_Spaces_Then_Do_Not_CallUpdate()
         {            
             var productDummie = new Product("Teste no BD", 3);
-            var productVm = new ProductUpdateVm{OldName = "Teste", NewName = " Teste no BD ", Price = 10};
+            var productVm = new UpdateProductVm{OldName = "Teste", NewName = " Teste no BD ", Price = 10};
             var productDataMock = new Mock<IProductContext>();
             productDataMock.Setup(x => x.FindByName(productDummie.Name)).ReturnsAsync(productDummie);
             productDataMock.Setup(x => x.FindByName(productVm.OldName)).ReturnsAsync(productDummie);            
@@ -247,7 +247,7 @@ namespace tests.Unit
             var productService = new ProductApplicationService(productDataMock.Object);
             var sut = new ProductController(productService);
 
-            var result = await sut.Put(new ProductUpdateVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
+            var result = await sut.Put(new UpdateProductVm{OldName = "Teste", NewName = "Teste new", Price = 10});   
 
             Assert.AreEqual(400, (result as ObjectResult).StatusCode);
         }

@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Api.ViewModels
 {
-    public class ProductVm
+    public class CreateProductVm
     {
         public string Name { get; set; }
         public float Price { get; set; }
     }    
 
-    public class ProductUpdateVm
+    public class UpdateProductVm
     {
         public string OldName { get; set; }
         public string NewName { get; set; }
