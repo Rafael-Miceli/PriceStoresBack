@@ -37,6 +37,7 @@ namespace Api.Controllers
                                             HigherPrice = s.ExpensiverPrice,
                                             LowerPrice = s.CheaperPrice
                                         })
+                                        .OrderBy(pr => pr.Name)
                                     });
 
                 return productsResume;
