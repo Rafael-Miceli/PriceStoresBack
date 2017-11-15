@@ -21,24 +21,21 @@ namespace Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<ProductResumeGroupedByCategoryVm>> Get()
+        public async Task<IEnumerable<ProductResumeVm>> Get()
         {
             try
             {
                 var products = await _productApplicationService.GetAll();
-                var productsResume = products
-                                    .GroupBy(g => g.ProductsOfThePast.Last().Category)
-                                    .Select(p => new ProductResumeGroupedByCategoryVm
-                                    {
-                                        CategoryName = p.Key == null ? "Sem Categoria" : p.Key.Name,
-                                        Products = p.Select(s => new ProductResumeVm {
-                                            Name = s.ProductsOfThePast.Last().Name,
-                                            LastPrice = s.ProductsOfThePast.Last().Price,
-                                            HigherPrice = s.ExpensiverPrice,
-                                            LowerPrice = s.CheaperPrice
-                                        })
-                                        .OrderBy(pr => pr.Name)
-                                    });
+                var productsResume = products.Select(s => new ProductResumeVm
+                {
+                    Name = s.ProductsOfThePast.Last().Name,
+                    LastPrice = s.ProductsOfThePast.Last().Price,
+                    HigherPrice = s.ExpensiverPrice,
+                    LowerPrice = s.CheaperPrice,
+                    CategoryName = s.Category == null ? "Sem Categoria" : s.Category.Name
+                })
+                .OrderBy(pr => pr.CategoryName)
+                .ThenBy(pr => pr.Name);                                    
 
                 return productsResume;
             }

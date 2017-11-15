@@ -15,15 +15,7 @@ namespace Api.ViewModels
         public string NewName { get; set; }
         public float Price { get; set; }
     }
-
-    public class ProductResumeGroupedByCategoryVm
-    {
-        public string CategoryName { get; set; }
-
-        public IEnumerable<ProductResumeVm> Products { get; set; }
-    }
-
-
+    
     public class ProductResumeVm
     {
         public string Name { get; set; }
