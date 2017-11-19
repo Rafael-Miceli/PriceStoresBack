@@ -1,6 +1,4 @@
 
-using System.Collections.Generic;
-
 namespace Api.ViewModels
 {
     public class CreateProductVm

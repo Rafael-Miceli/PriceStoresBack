@@ -80,5 +80,10 @@ namespace Api.ApplicationServices
         {
             return await FindByName(nameToUpdate) != null;
         }
+
+        public async Task RemoveProducts(string[] productsName)
+        {
+
+        }
     }
 }

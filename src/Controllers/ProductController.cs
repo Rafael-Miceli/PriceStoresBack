@@ -84,9 +84,10 @@ namespace Api.Controllers
             }                        
         }
 
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("{productName}")]
+        public async Task Delete(string[] productsName)
         {
+
         }
     }
 }

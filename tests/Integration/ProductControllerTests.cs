@@ -22,13 +22,13 @@ namespace tests.Integration
             var productService = new ProductApplicationService(productData);
             var sut = new ProductController(productService);
 
-            var result = await sut.Get();   
+            var result = await sut.Get();
 
             Console.WriteLine($"Recebido {result.Count()} produtos");
 
             Assert.IsTrue(result.Count() > 0);
-            Assert.IsTrue(result.First().Products.First().HigherPrice > 0);
-            Assert.IsTrue(result.First().Products.First().LowerPrice > 0);
+            Assert.IsTrue(result.First().HigherPrice > 0);
+            Assert.IsTrue(result.First().LowerPrice > 0);
         }
 
         [TestMethod]

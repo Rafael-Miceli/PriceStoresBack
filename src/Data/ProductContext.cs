@@ -99,7 +99,17 @@ namespace Api.Data
                 return null;           
             
             return await dataProduct.FirstOrDefaultAsync();    
-        }     
+        }
+
+        public async Task RemoveProducts(string[] productsName)
+        {
+            await Products.DeleteManyAsync(GetListOfProductsWithNames(productsName));
+        }
+
+        public FilterDefinition<Product> GetListOfProductsWithNames(string[] productsName)
+        {
+            return Builders<Product>.Filter.In("name", productsName);
+        }
     }
 
     public interface IProductContext
