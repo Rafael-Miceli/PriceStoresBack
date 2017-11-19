@@ -13,7 +13,7 @@ namespace tests.Integration
     [TestClass]
     public class ProductControllerIntegrationTests
     {
-        private string mongoConnection = "";
+        private string mongoConnection = "mongodb://localhost:27017";
 
         [TestMethod]
         public async Task When_Listing_Products_Then_Return_Its_Price_And_Min_And_Max_Prices_Also()
