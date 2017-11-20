@@ -106,7 +106,16 @@ namespace Api.Data
             await Products.DeleteManyAsync(GetListOfProductsWithNames(productsName));
         }
 
-        public FilterDefinition<Product> GetListOfProductsWithNames(string[] productsName)
+        public async Task<IEnumerable<Product>> GetAllByNames(string[] productsName)
+        {
+            var dataProducts = Products.Find(GetListOfProductsWithNames(productsName));
+            if (!dataProducts.Any())
+                return null;
+
+            return await dataProducts.ToListAsync();
+        }
+
+        private FilterDefinition<Product> GetListOfProductsWithNames(string[] productsName)
         {
             return Builders<Product>.Filter.In("name", productsName);
         }
@@ -122,6 +131,7 @@ namespace Api.Data
         Task AddProductHistory(ProductHistory productHistory);
         Task<ProductHistory> GetHistory(string id);
         Task UpdateProductHistory(ProductHistory productHistory);
+        Task RemoveProducts(string[] productsName);
     }    
 }
 

@@ -83,7 +83,7 @@ namespace Api.ApplicationServices
 
         public async Task RemoveProducts(string[] productsName)
         {
-
+            await _productContext.RemoveProducts(productsName);
         }
     }
 }

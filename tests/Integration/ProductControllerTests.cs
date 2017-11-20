@@ -95,6 +95,18 @@ namespace tests.Integration
             var result = await sut.Post(productVm);   
 
             Assert.AreEqual(201, (result as CreatedResult).StatusCode);
+        }        
+
+        [TestMethod]
+        public async Task Given_Two_Valids_Products_Names_When_Deleting_Products_By_Name_Then_Return_204()
+        {
+            var productData = new ProductContext(mongoConnection);
+            var productService = new ProductApplicationService(productData);
+            var sut = new ProductController(productService);            
+
+            var result = await sut.Delete(new[] { "a", "Inhame" });
+
+            Assert.AreEqual(204, (result as NoContentResult).StatusCode);
         }
     }
 }
