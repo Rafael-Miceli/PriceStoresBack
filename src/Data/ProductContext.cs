@@ -117,7 +117,7 @@ namespace Api.Data
 
         private FilterDefinition<Product> GetListOfProductsWithNames(string[] productsName)
         {
-            return Builders<Product>.Filter.In("name", productsName);
+            return Builders<Product>.Filter.In(p => p.Name, productsName);
         }
     }
 
