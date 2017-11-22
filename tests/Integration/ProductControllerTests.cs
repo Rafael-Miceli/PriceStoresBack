@@ -100,11 +100,16 @@ namespace tests.Integration
         [TestMethod]
         public async Task Given_Two_Valids_Products_Names_When_Deleting_Products_By_Name_Then_Return_204()
         {
+            var productsToDelete = new[] { "a", "Inhame" };
             var productData = new ProductContext(mongoConnection);
+
+            var existentProducts = await productData.GetAllByNames(productsToDelete);
+            Assert.AreEqual(2, existentProducts.Count());
+
             var productService = new ProductApplicationService(productData);
             var sut = new ProductController(productService);            
 
-            var result = await sut.Delete(new[] { "a", "Inhame" });
+            var result = await sut.Delete(productsToDelete);
 
             Assert.AreEqual(204, (result as NoContentResult).StatusCode);
         }

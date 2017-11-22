@@ -22,6 +22,23 @@ namespace IntegrationTests
             Assert.AreEqual(3, result.Count());
         }
 
+        [TestMethod]
+        public async Task Given_Two_Valid_Products_Name_When_Deleting_Products_By_Name_Then_Remove_From_Mongo_Db()
+        {
+            var productsToDelete = new[] { "Cenoura", "Cebola" };
+            var sut = new ProductContext(mongoConnection);
+
+            var existentProducts = await sut.GetAllByNames(productsToDelete);
+            Assert.IsNotNull(existentProducts);
+            Assert.AreEqual(2, existentProducts.Count());
+
+            await sut.RemoveProducts(productsToDelete);
+
+            var result = await sut.GetAllByNames(productsToDelete);
+
+            Assert.IsNull(result);
+        }
+
         //Comportamento não suportado ainda
         [TestMethod]
         [Ignore]
