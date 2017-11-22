@@ -15,7 +15,7 @@ namespace IntegrationTests
         {
             var sut = new ProductContext(mongoConnection);
 
-            var result = await sut.GetAllByNames(new[] { "a", "Batata", "Manteiga aviação" });
+            var result = await sut.GetAllByNames(new[] { "Limão", "Batata", "Manteiga aviação" });
 
             Assert.IsNotNull(result);
             Assert.IsTrue(result.Any());

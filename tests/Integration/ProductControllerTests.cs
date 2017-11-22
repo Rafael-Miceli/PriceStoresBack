@@ -104,6 +104,7 @@ namespace tests.Integration
             var productData = new ProductContext(mongoConnection);
 
             var existentProducts = await productData.GetAllByNames(productsToDelete);
+            Assert.IsNotNull(existentProducts);
             Assert.AreEqual(2, existentProducts.Count());
 
             var productService = new ProductApplicationService(productData);
