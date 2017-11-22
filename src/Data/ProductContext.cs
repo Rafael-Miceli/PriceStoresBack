@@ -118,12 +118,7 @@ namespace Api.Data
         private FilterDefinition<Product> GetListOfProductsWithNames(string[] productsName)
         {
             return Builders<Product>.Filter.In(p => p.Name, productsName);
-        }
-
-        //internal static List<BsonValue> ConvertToCaseInsensitiveRegexList(this IEnumerable<string> source)
-        //{
-        //    return source.Select(range => new BsonRegularExpression("/^" + range.Replace("+", @"\+") + "$/i")).Cast<BsonValue>().ToList();
-        //}
+        }        
     }
 
     public interface IProductContext
