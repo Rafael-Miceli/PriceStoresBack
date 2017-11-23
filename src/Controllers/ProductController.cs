@@ -84,11 +84,12 @@ namespace Api.Controllers
             }                        
         }
 
-        [HttpDelete("{productName}")]
+        [HttpDelete]
         public async Task<IActionResult> Delete(string[] productsName)
         {
             try
             {
+                Console.WriteLine($"Deletar os produtos no array {productsName[0]}");
                 await _productApplicationService.RemoveProducts(productsName);
                 return NoContent();
             }

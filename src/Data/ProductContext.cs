@@ -103,7 +103,10 @@ namespace Api.Data
 
         public async Task RemoveProducts(string[] productsName)
         {
-            await Products.DeleteManyAsync(GetListOfProductsWithNames(productsName));
+            var result = await Products.DeleteManyAsync(GetListOfProductsWithNames(productsName));
+
+            if (result.DeletedCount <= 0)
+                throw new Exception("Nenhum produto deletado");
         }
 
         public async Task<IEnumerable<Product>> GetAllByNames(string[] productsName)
