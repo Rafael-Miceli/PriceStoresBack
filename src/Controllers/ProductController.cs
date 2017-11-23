@@ -85,7 +85,7 @@ namespace Api.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete(string[] productsName)
+        public async Task<IActionResult> Delete([FromBody]string[] productsName)
         {
             try
             {
