@@ -251,5 +251,21 @@ namespace tests.Unit
 
             Assert.AreEqual(400, (result as ObjectResult).StatusCode);
         }
+
+        [TestMethod]
+        public async Task Given_A_Product_When_Updating_It_To_A_WhiteSpaceName_Then_Return_BadRequest()
+        {            
+            var productDummie = new Product("Teste new", 3);
+            var productDataMock = new Mock<IProductContext>();
+            productDataMock.Setup(x => x.FindByName("Teste new")).ReturnsAsync(productDummie);
+            productDataMock.Setup(x => x.GetHistory(productDummie.Id)).ReturnsAsync(new ProductHistory(productDummie));
+            var productService = new ProductApplicationService(productDataMock.Object);
+            var sut = new ProductController(productService);
+
+            var result = await sut.Put(new UpdateProductVm{OldName = "Teste new", NewName = " ", Price = 10});   
+
+            Assert.AreEqual(400, (result as ObjectResult).StatusCode);
+            productDataMock.Verify(x => x.Update(It.IsAny<Product>()), Times.Never());
+        }
     }    
 }

@@ -28,7 +28,7 @@ namespace Api.ApplicationServices
             if(string.IsNullOrEmpty(product.Name))
                 throw new Exception("Produto não pode ter nome vazio.");
 
-            if (await FindByName(product.Name) != null)
+            if (await ProductAlreadyExistsWithName(product.Name))
                 throw new Exception("Um produto com este nome já existe");
 
             await _productContext.AddProduct(product);
@@ -37,22 +37,12 @@ namespace Api.ApplicationServices
             await _productContext.AddProductHistory(productHistory);
         }
 
-        public async Task<Product> FindByName(string productName)
-        {
-            return await _productContext.FindByName(productName);
-        }
-
-        public async Task<IEnumerable<ProductHistory>> GetAll()
-        {
-            Console.WriteLine("Buscando todos os produtos");
-            var products = await _productContext.GetAllWithHistory();
-
-            return products;
-        }
-
         public async Task UpdateProduct(string productOldName, string nameToUpdate, float priceToUpdate)
         {
             nameToUpdate = nameToUpdate.Trim();
+
+            if(string.IsNullOrEmpty(nameToUpdate))
+                throw new Exception("Produto não pode ter nome vazio.");
 
             if(productOldName != nameToUpdate && await ProductAlreadyExistsWithName(nameToUpdate))
                 throw new Exception($"Produto com o nome {nameToUpdate} já existe");
@@ -74,6 +64,19 @@ namespace Api.ApplicationServices
 
             await _productContext.Update(product);
             await _productContext.UpdateProductHistory(productHistory);
+        }
+
+        public async Task<Product> FindByName(string productName)
+        {
+            return await _productContext.FindByName(productName);
+        }
+
+        public async Task<IEnumerable<ProductHistory>> GetAll()
+        {
+            Console.WriteLine("Buscando todos os produtos");
+            var products = await _productContext.GetAllWithHistory();
+
+            return products;
         }
 
         private async Task<bool> ProductAlreadyExistsWithName(string nameToUpdate)

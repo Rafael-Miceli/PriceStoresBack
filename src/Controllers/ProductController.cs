@@ -45,9 +45,9 @@ namespace Api.Controllers
             }            
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("api/GetByName")]
-        public async Task<Product> GetbyName([FromBody]string productName)
+        public async Task<Product> GetbyName(string productName)
         {
             return await _productApplicationService.FindByName(productName);
         }
