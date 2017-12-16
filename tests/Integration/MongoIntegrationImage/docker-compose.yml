@@ -1,0 +1,9 @@
+version: '3.1'
+
+services:
+  mongo-pricesotre:
+    image: rafaelmiceli/mongo-pricestore:latest
+    build: .
+    ports: 
+      - "27017:27017"
+    
