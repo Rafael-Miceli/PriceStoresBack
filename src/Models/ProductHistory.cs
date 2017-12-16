@@ -7,7 +7,7 @@ namespace Api.Models
 {
     public class ProductHistory
     {
-        public string Id { get; set; }
+        public string ProductId { get; private set; }
         public List<ProductOfThePast> ProductsOfThePast { get; private set; }   
         public float CheaperPrice { get; private set; }     
         public float ExpensiverPrice { get; private set; }
@@ -15,7 +15,7 @@ namespace Api.Models
 
         public ProductHistory(Product product)
         {            
-            Id = product.Id;
+            ProductId = product.Id;
             ProductsOfThePast = new List<ProductOfThePast>();              
             AddToProductsOfThePast(product);                               
         }

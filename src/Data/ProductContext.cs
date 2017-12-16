@@ -52,7 +52,7 @@ namespace Api.Data
 
         public async Task UpdateProductHistory(ProductHistory productHistory)
         {
-            await ProductsHistory.ReplaceOneAsync(h => h.Id == productHistory.Id, productHistory);            
+            await ProductsHistory.ReplaceOneAsync(h => h.ProductId == productHistory.ProductId, productHistory);            
         }
 
         public async Task AddProductHistory(ProductHistory productHistory)
@@ -76,7 +76,7 @@ namespace Api.Data
                 .Lookup<Product, ProductHistory, ProductWithHistories>(
                     ProductsHistory,
                     r => r.Id,
-                    h => h.Id,
+                    h => h.ProductId,
                     j => j.ProductsHistory
                 ).ToListAsync();      
             
@@ -94,7 +94,7 @@ namespace Api.Data
 
         public async Task<ProductHistory> GetHistory(string id)
         {
-            var dataProduct = ProductsHistory.Find(p => p.Id == id);
+            var dataProduct = ProductsHistory.Find(p => p.ProductId == id);
             if(!dataProduct.Any())
                 return null;           
             
