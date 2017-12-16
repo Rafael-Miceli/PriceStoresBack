@@ -2,11 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace Api.Models
 {
     public class ProductHistory
     {
+        [BsonElement("_id")]
         public string ProductId { get; private set; }
         public List<ProductOfThePast> ProductsOfThePast { get; private set; }   
         public float CheaperPrice { get; private set; }     
