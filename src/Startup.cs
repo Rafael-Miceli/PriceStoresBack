@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Cors.Internal;
+using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -37,6 +38,7 @@ namespace Api
                 .AllowAnyHeader()
                 .AllowAnyMethod()));
 
+            
             services.AddMvc();
             services.Configure<MvcOptions>(opt => 
             opt.Filters.Add(new CorsAuthorizationFilterFactory("CorsPolicy")));
@@ -54,6 +56,10 @@ namespace Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("CorsPolicy");
+
+            var option = new RewriteOptions();             
+            option.AddRedirect("^$", "swagger");              
+            app.UseRewriter(option);
 
             if (env.IsDevelopment())
             {
