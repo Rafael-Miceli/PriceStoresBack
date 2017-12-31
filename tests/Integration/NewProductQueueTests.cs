@@ -17,7 +17,7 @@ namespace tests.Integration
         private string productQueueConnection = "tcp://localhost:25672";
 
         [TestMethod]
-        public async Task Smoke_Connection_To_Queue()
+        public void Smoke_Connection_To_Queue()
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };
             using (var connection = factory.CreateConnection())
