@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System;
 using Api.ViewModels;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using System.Text;
 
 namespace tests.Integration
@@ -14,7 +15,7 @@ namespace tests.Integration
     [TestClass]
     public class NewProductQueueTests
     {
-        private string productQueueConnection = "tcp://localhost:25672";
+        //private string productQueueConnection = "tcp://localhost:25672";
 
         [TestMethod]
         public void Smoke_Connection_To_Queue()
@@ -39,6 +40,35 @@ namespace tests.Integration
                                         body: body);
                     Console.WriteLine(" [x] Sent {0}", message);
                 }
+            }
+        }
+
+        [TestMethod]
+        public void Smoke_Read_From_Queue()
+        {
+            var factory = new ConnectionFactory() { HostName = "localhost" };
+            using (var connection = factory.CreateConnection())
+            using (var channel = connection.CreateModel())
+            {
+                channel.QueueDeclare(queue: "hello",
+                                     durable: false,
+                                     exclusive: false,
+                                     autoDelete: false,
+                                     arguments: null);
+
+                var consumer = new EventingBasicConsumer(channel);
+                consumer.Received += (model, ea) =>
+                {
+                    var body = ea.Body;
+                    var message = Encoding.UTF8.GetString(body);
+                    Console.WriteLine(" [x] Received {0}", message);
+                };
+                channel.BasicConsume(queue: "hello",
+                                     autoAck: true,
+                                     consumer: consumer);
+
+                Console.WriteLine(" Press [enter] to exit.");
+                Console.ReadLine();
             }
         }
     }
