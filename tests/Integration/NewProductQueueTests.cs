@@ -22,26 +22,25 @@ namespace tests.Integration
         {
             var factory = new ConnectionFactory() { HostName = "localhost" };
             using (var connection = factory.CreateConnection())
+            using (var channel = connection.CreateModel())
             {
-                using (var channel = connection.CreateModel())
-                {
-                    channel.QueueDeclare(queue: "hello",
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
+                channel.QueueDeclare(queue: "hello",
+                                durable: true,
+                                exclusive: false,
+                                autoDelete: false,
+                                arguments: null);
 
-                    string message = "Hello World!";
-                    var body = Encoding.UTF8.GetBytes(message);
+                string message = "Hello World!";
+                var body = Encoding.UTF8.GetBytes(message);
 
-                    channel.BasicPublish(exchange: "",
-                                        routingKey: "hello",
-                                        basicProperties: null,
-                                        body: body);
-                    Console.WriteLine(" [x] Sent {0}", message);
-                }
+                channel.BasicPublish(exchange: "",
+                                    routingKey: "hello",
+                                    basicProperties: null,
+                                    body: body);
+                Console.WriteLine(" [x] Sent {0}", message);
             }
         }
+        
 
         [TestMethod]
         public void Smoke_Read_From_Queue()
@@ -51,7 +50,7 @@ namespace tests.Integration
             using (var channel = connection.CreateModel())
             {
                 channel.QueueDeclare(queue: "hello",
-                                     durable: false,
+                                     durable: true,
                                      exclusive: false,
                                      autoDelete: false,
                                      arguments: null);
@@ -62,9 +61,11 @@ namespace tests.Integration
                     var body = ea.Body;
                     var message = Encoding.UTF8.GetString(body);
                     Console.WriteLine(" [x] Received {0}", message);
+
+                    channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
                 };
                 channel.BasicConsume(queue: "hello",
-                                     autoAck: true,
+                                     autoAck: false,
                                      consumer: consumer);
 
                 Console.WriteLine(" Press [enter] to exit.");
