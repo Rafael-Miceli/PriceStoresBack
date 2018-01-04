@@ -14,6 +14,7 @@ namespace Api.ApplicationServices
     public class ProductApplicationService : IProductApplicationService
     {
         private readonly IProductContext _productContext;
+        private readonly IQueue _queue;
 
         public ProductApplicationService(IProductContext productContext)
         {
