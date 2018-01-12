@@ -9,12 +9,12 @@ namespace Api.ApplicationServices
     {
         public void NewProduct(Product message)
         {
-            var message = GetMessage(args);
-            var body = Encoding.UTF8.GetBytes(message);
-            channel.BasicPublish(exchange: "newproduct",
-                                routingKey: "",
-                                basicProperties: null,
-                                body: body);
+            // var message = GetMessage(args);
+            // var body = Encoding.UTF8.GetBytes(message);
+            // channel.BasicPublish(exchange: "newproduct",
+            //                     routingKey: "",
+            //                     basicProperties: null,
+            //                     body: body);
 
             // var factory = new ConnectionFactory() { HostName = "localhost" };
             // using (var connection = factory.CreateConnection())
