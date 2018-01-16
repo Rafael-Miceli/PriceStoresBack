@@ -2,6 +2,7 @@ using Api.ApplicationServices.Interfaces;
 using Api.Models;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
+using System.Text;
 
 namespace Api.ApplicationServices
 {
@@ -9,32 +10,20 @@ namespace Api.ApplicationServices
     {
         public void NewProduct(Product message)
         {
-            // var message = GetMessage(args);
-            // var body = Encoding.UTF8.GetBytes(message);
-            // channel.BasicPublish(exchange: "newproduct",
-            //                     routingKey: "",
-            //                     basicProperties: null,
-            //                     body: body);
+            var factory = new ConnectionFactory() { HostName = "localhost" };
+            using(var connection = factory.CreateConnection())
+            using(var channel = connection.CreateModel())
+            {
 
-            // var factory = new ConnectionFactory() { HostName = "localhost" };
-            // using (var connection = factory.CreateConnection())
-            // using (var channel = connection.CreateModel())
-            // {
-            //     channel.QueueDeclare(queue: "hello",
-            //                     durable: true,
-            //                     exclusive: false,
-            //                     autoDelete: false,
-            //                     arguments: null);
+                channel.ExchangeDeclare(exchange: "newproduct", type: "fanout");
 
-            //     string message = "Hello World!";
-            //     var body = Encoding.UTF8.GetBytes(message);
+                var body = Encoding.UTF8.GetBytes(message.Name);
 
-            //     channel.BasicPublish(exchange: "",
-            //                         routingKey: "hello",
-            //                         basicProperties: null,
-            //                         body: body);
-            //     Console.WriteLine(" [x] Sent {0}", message);
-            // }
+                channel.BasicPublish(exchange: "newproduct",
+                                    routingKey: "",
+                                    basicProperties: null,
+                                    body: body);
+            }
         }
 
         public void UpdateProduct(Product message)
