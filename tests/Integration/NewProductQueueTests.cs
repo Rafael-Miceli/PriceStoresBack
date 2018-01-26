@@ -95,14 +95,14 @@ namespace tests.Integration
             using(var connection = factory.CreateConnection())
             using(var channel = connection.CreateModel())
             {
-                channel.ExchangeDeclare(exchange: "newproduct", type: "fanout");
+                channel.ExchangeDeclare(exchange: "logs", type: "fanout");
 
                 var queueName = channel.QueueDeclare().QueueName;
                 channel.QueueBind(queue: queueName,
-                                exchange: "newproduct",
+                                exchange: "logs",
                                 routingKey: "");
 
-                Console.WriteLine(" [*] Waiting for newproduct.");
+                Console.WriteLine(" [*] Waiting for logs.");
 
                 var consumer = new EventingBasicConsumer(channel);
                 consumer.Received += (model, ea) =>
