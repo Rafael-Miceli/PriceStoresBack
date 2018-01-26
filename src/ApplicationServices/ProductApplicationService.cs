@@ -37,7 +37,7 @@ namespace Api.ApplicationServices
             var productHistory = new ProductHistory(product);
             await _productContext.AddProductHistory(productHistory);
 
-            _IWantToNotify.NewProduct(product);
+            await _IWantToNotify.NewProduct(product);
         }
 
         public async Task UpdateProduct(string productOldName, string nameToUpdate, float priceToUpdate)
@@ -68,7 +68,7 @@ namespace Api.ApplicationServices
             await _productContext.Update(product);
             await _productContext.UpdateProductHistory(productHistory);
 
-            _IWantToNotify.UpdateProduct(product);
+            await _IWantToNotify.UpdateProduct(product);
         }
 
         public async Task<Product> FindByName(string productName)
