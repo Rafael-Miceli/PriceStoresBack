@@ -9,6 +9,7 @@ RUN dotnet publish -o /publish
 
 # Runtime Image Stage
 FROM microsoft/aspnetcore:latest
+EXPOSE 80
 WORKDIR /publish
 COPY --from=build-env /publish .
 ENTRYPOINT ["dotnet", "Api.dll"]
