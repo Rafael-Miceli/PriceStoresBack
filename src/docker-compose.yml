@@ -20,7 +20,7 @@ services:
 
 secrets:
   - mongo_connection:
-    file: secrets/mongo_connection
+    external: true
 
 # network:
 #   pricestoredocker
