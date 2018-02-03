@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Filters;
 
 namespace Api
 {
@@ -23,6 +24,7 @@ namespace Api
                 .UseStartup<Startup>()
                 .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
                     .Enrich.FromLogContext()
+                    //.Filter.ByExcluding()
                     .WriteTo.Console()
                     .WriteTo.RollingFile(hostingContext.Configuration["log-path"]))                    
                 .Build();
