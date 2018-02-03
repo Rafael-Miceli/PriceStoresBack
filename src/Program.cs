@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace Api
 {
@@ -20,7 +21,10 @@ namespace Api
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                //.UseUrls("http://localhost:5000")
+                .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
+                    .Enrich.FromLogContext()
+                    .WriteTo.Console()
+                    .WriteTo.RollingFile(hostingContext.Configuration["log-path"]))                    
                 .Build();
     }
 }
