@@ -1,11 +1,22 @@
-FROM microsoft/aspnetcore-build:2 AS build-env
-WORKDIR /app
+FROM microsoft/aspnetcore-build:2.0 AS build-env
 
-COPY src/Api.csproj ./src/
-RUN dotnet restore src/Api.csproj
+WORKDIR /src
 
-COPY tests/Unit/UnitTests.csproj ./tests/Unit/
-RUN dotnet restore tests/Unit/UnitTests.csproj
+COPY *.sln ./
+
+COPY lib/CustomConfigDockerSecrets.csproj lib/
+
+COPY src/Api.csproj src/
+
+COPY tests/Unit/UnitTests.csproj tests/Unit/
+
+RUN dotnet restore 
+RUN dotnet publish src/Api.csproj --no-restore -c Release -o /app
 
 #RUN ls -alR
-COPY . .
+
+FROM microsoft/aspnetcore:2.0 AS runtime-env
+WORKDIR /app
+COPY --from=build-env /app .
+EXPOSE 80
+ENTRYPOINT ["dotnet", "Api.dll"]

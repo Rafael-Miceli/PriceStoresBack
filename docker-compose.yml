@@ -2,7 +2,7 @@ version: '3.3'
 
 services:  
   price-stores:
-    image: rafaelmiceli/pricestore
+    image: pricestore.azurecr.io/pricestore-main-api:v1
     ports:  
       - "5001:80"
     depends_on:
