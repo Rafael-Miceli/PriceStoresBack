@@ -7,4 +7,3 @@
 **/.gitignore
 **/Dockerfile*
 **/docker-compose*.yml
-tests/Integration

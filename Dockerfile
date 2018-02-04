@@ -10,8 +10,16 @@ COPY src/Api.csproj src/
 
 COPY tests/Unit/UnitTests.csproj tests/Unit/
 
+COPY tests/Integration/IntegrationTests.csproj tests/Integration/
+
+
 RUN dotnet restore 
-RUN dotnet publish src/Api.csproj --no-restore -c Release -o /app
+
+COPY . .
+
+WORKDIR /src/src
+
+RUN dotnet publish --no-restore -c Release -o /app
 
 #RUN ls -alR
 
