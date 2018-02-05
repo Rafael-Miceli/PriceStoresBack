@@ -2,7 +2,7 @@ version: '3.3'
 
 services:  
   price-stores:  
-    image: pricestore.azurecr.io/pricestore-main-api:v1
+    image: pricestore.azurecr.io/pricestore/main-api:v1 
     build: .
     
   
