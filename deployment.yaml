@@ -15,7 +15,7 @@ spec:
         image: mongo
         ports:
         - containerPort: 27017
-          name: redis
+          name: mongo
 ---
 apiVersion: v1
 kind: Service
@@ -66,4 +66,4 @@ spec:
   ports:
   - port: 80
   selector:
-app: main-api
+    app: main-api
