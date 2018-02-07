@@ -1,0 +1,50 @@
+FROM microsoft/aspnetcore-build:2.0 AS build-env
+
+ENV ORACLE_INSTANTCLIENT_MAJOR 12.2
+ENV ORACLE /usr/local/oracle
+ENV ORACLE_HOME $ORACLE/lib/oracle/$ORACLE_INSTANTCLIENT_MAJOR/client64
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:$ORACLE_HOME/lib
+ENV C_INCLUDE_PATH $C_INCLUDE_PATH:$ORACLE/include/oracle/$ORACLE_INSTANTCLIENT_MAJOR/client64
+
+
+COPY basic.rpm .
+COPY devel.rpm .
+
+RUN apt-get update
+RUN apt-get install -y alien
+
+RUN alien -i basic.rpm
+RUN alien -i devel.rpm
+
+RUN echo "$ORACLE_HOME/lib" > /etc/ld.so.conf.d/oracle.conf && chmod o+r /etc/ld.so.conf.d/oracle.conf && ldconfig
+
+CMD ["bash"]
+
+#WORKDIR /src
+
+#COPY *.sln ./
+#
+#COPY lib/CustomConfigDockerSecrets.csproj lib/
+#
+#COPY src/Api.csproj src/
+#
+#COPY tests/Unit/UnitTests.csproj tests/Unit/
+#
+#COPY tests/Integration/IntegrationTests.csproj tests/Integration/
+#
+#
+#RUN dotnet restore 
+#
+#COPY . .
+#
+#WORKDIR /src/src
+#
+#RUN dotnet publish --no-restore -c Release -o /app
+#
+##RUN ls -alR
+#
+#FROM microsoft/aspnetcore:2.0 AS runtime-env
+#WORKDIR /app
+#COPY --from=build-env /app .
+#EXPOSE 80
+#ENTRYPOINT ["dotnet", "Api.dll"]
