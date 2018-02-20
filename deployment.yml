@@ -56,6 +56,8 @@ spec:
         env:
         - name: ConnectionStrings__MongoConnection
           value: mongodb://mongo:27017
+      imagePullSecrets:
+        - name: default-token-vk0vj
 ---
 apiVersion: v1
 kind: Service
