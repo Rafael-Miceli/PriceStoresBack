@@ -1,6 +1,6 @@
 FROM mysql
 
-MAINTAINER rafael-miceli
+LABEL maintainer=rafael-miceli
 
 ENV MYSQL_DATABASE=mydb \
     MYSQL_ROOT_PASSWORD=123
