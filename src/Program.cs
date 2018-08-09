@@ -23,8 +23,8 @@ namespace Api
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
                 .UseSerilog((hostingContext, loggerConfiguration) => loggerConfiguration
-                    .Enrich.FromLogContext()
-                    //.Filter.ByExcluding()
+                    .Enrich.FromLogContext()                    
+                    .Filter.ByExcluding(c => c.Properties.Any(p => p.Value.ToString().Contains("swagger")))
                     .WriteTo.Console()
                     .WriteTo.RollingFile(hostingContext.Configuration["log-path"]))                    
                 .Build();

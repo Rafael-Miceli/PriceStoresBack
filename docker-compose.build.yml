@@ -1,8 +1,23 @@
-version: '3.0'
+version: '3.3'
 
 services:  
-  price-stores:  
-    image: pricestore.azurecr.io/pricestore/main-api:v1 
+  price-stores:
+    image: pricestore.azurecr.io/pricestore/main-api:v1
     build: .
-    
-  
+    ports:  
+      - "5001:80"
+    depends_on:
+      - mongo
+    environment:
+      - ConnectionStrings__MongoConnection=mongodb://mongo:27017
+    # network:
+    #   - pricestore
+  mongo:
+    image: "mongo"
+    ports: 
+      - "27017:27017"
+    # network:
+    #   - pricestore
+
+# network:
+#   pricestoredocker
